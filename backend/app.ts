@@ -4,6 +4,7 @@ dotenv.config();
 require('express-async-errors');
 import connect from './dbConfig/dbConfig';
 import favListRoutes from './routes/favList';
+import { StatusCodes } from 'http-status-codes';
 
 const app: Express = express();
 
@@ -26,5 +27,5 @@ const start = async () => {
         console.log(error);
     }
 };
-
+console.log(StatusCodes.NOT_FOUND)
 start();

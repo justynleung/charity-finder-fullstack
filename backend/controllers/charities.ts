@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes'
 import Charity from '../models/charity';
+import { error } from 'console';
 
 const getAllFavCharities = async (req: Request, res: Response) => {
     const charities = await Charity.find({})
@@ -9,7 +10,10 @@ const getAllFavCharities = async (req: Request, res: Response) => {
 
 const getFavCharity = async (req: Request, res: Response) => {
     const { id: charityId } = req.params
-    const charity = await Charity.findOne({ _id: charityId })
+    const charity = await Charity.findById({ _id: charityId })
+    if (!charity) {
+        console.log(error)
+    }
     res.status(StatusCodes.OK).json({ charity })
 }
 
