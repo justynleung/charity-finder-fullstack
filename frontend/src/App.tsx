@@ -1,16 +1,26 @@
-import Navbar from './components/Navbar';
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider
+} from 'react-router-dom'
+import Rootlayout from './pages';
 import CharityList from './components/CharityList';
-import SearchBar from './components/SearchBar'
-import './App.css'
+import './App.css';
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<Rootlayout />}>
+      <Route index element={<CharityList />} />
+
+    </Route>
+  )
+)
 
 function App() {
   return (
-    <>
-      <Navbar />
-      <SearchBar />
-      <CharityList />
-    </>
-  )
+    <RouterProvider router={router} />
+  );
 }
 
 export default App

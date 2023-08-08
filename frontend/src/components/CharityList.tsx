@@ -10,6 +10,7 @@ interface CharityData {
     name: string
     location: string
     logoUrl: string
+    ein: string
 }
 
 
@@ -29,24 +30,32 @@ export default function CharityList() {
     return (
         <div className='flex flex-wrap justify-start h-fit'>
             {allData.map((item) => {
-                return <Charity name={item.name} location={item.location} logoUrl={item.logoUrl} />
+                return <Charity key={item.ein} name={item.name} location={item.location} logoUrl={item.logoUrl} ein={item.ein} />
             })}
         </div>
     )
 }
 
-function Charity({ name, location, logoUrl }: CharityData) {
+function Charity({ name, location, logoUrl, ein }: CharityData) {
     const [isLiked, setIsLiked] = useState(false);
+    const handleClick = async () => {
+        setIsLiked(!isLiked)
+        console.log('clicked')
+        const data = { name, location, logoUrl, ein }
+        console.log(data)
+        // post request for name, location, logoUrl, ein
+        axios.post('http://localhost:3000/api/favCharityList', data).then((response) => console.log(response)).catch((error) => console.log(error))
+    }
     return (
         <div className='flex flex-col justify-start items-start text-left w-60 h-80 m-4 p-4 bg-[--color-gold-light] rounded-3xl text-[--color-gray-4]'>
             <img className='w-52 h-36' src={logoUrl ? logoUrl : placeholderImg} alt={`Logo of ${name}`} />
             <div className='flex flex-col h-full w-full justify-between mt-1.5'>
                 <div>
                     <p>{name}</p>
-                    <p>{location}</p>
+                    {/* <p>{location}</p> */}
                 </div>
                 <div className='flex flex-row justify-around items-center w-full'>
-                    <button onClick={() => setIsLiked(!isLiked)} className='text-lg'>{isLiked ? <BiSolidLike /> : <BiLike />}</button>
+                    <button onClick={() => handleClick()} className='text-lg'>{isLiked ? <BiSolidLike /> : <BiLike />}</button>
                     <button className='flex flex-row items-center text-lg'><small>Detail</small><MdReadMore /></button>
                 </div>
             </div>
