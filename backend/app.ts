@@ -27,5 +27,5 @@ const start = async () => {
         console.log(error);
     }
 };
-console.log(StatusCodes.NOT_FOUND)
+
 start();
