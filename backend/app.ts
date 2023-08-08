@@ -4,7 +4,7 @@ dotenv.config();
 require('express-async-errors');
 import connect from './dbConfig/dbConfig';
 import favListRoutes from './routes/favList';
-import { StatusCodes } from 'http-status-codes';
+import { notFoundMiddleware, errorHandlerMiddleware } from './middleware';
 
 const app: Express = express();
 
@@ -15,6 +15,9 @@ app.get('/', (req, res) => {
     res.json({ msg: 'welcome' })
 })
 app.use('/api/favCharityList', favListRoutes)
+
+app.use(notFoundMiddleware)
+app.use(errorHandlerMiddleware)
 
 const port = process.env.PORT || 3000;
 const start = async () => {
