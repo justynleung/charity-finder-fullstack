@@ -1,8 +1,16 @@
 import mongoose from "mongoose";
 
 const CharitySchema = new mongoose.Schema({
-    ein: { type: String, required: true, unique: true },
-    name: { type: String, required: true, unique: true },
+    ein: {
+        type: String,
+        required: [true, 'please provide ein'],
+        unique: [true, 'already on your fav list']
+    },
+    name: {
+        type: String,
+        required: [true, 'please provide name'],
+        unique: [true, 'already on your fav list']
+    },
     profileUrl: { type: String },
     matchedTerms: [{ type: String }],
     slug: { type: String },

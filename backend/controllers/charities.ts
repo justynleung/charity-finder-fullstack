@@ -18,7 +18,6 @@ const getFavCharity = async (req: Request, res: Response) => {
 }
 
 const createFavCharities = async (req: Request, res: Response) => {
-    const search = Charity.findOne({ ein: req.body.ein })
     const charity = await Charity.create(req.body)
     res.status(StatusCodes.OK).json({ charity })
 }

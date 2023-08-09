@@ -22,7 +22,6 @@ export default function CharityList() {
                 setAllData(res.data.nonprofits)
             }))
             .catch(err => console.error(`Error: ${err}`))
-        console.log(allData)
     }
     useEffect(() => {
         getAllData();
@@ -39,14 +38,22 @@ export default function CharityList() {
 }
 
 function Charity({ name, location, logoUrl, ein }: CharityData) {
-    const [isLiked, setIsLiked] = useState(false);
-    const handleClick = async () => {
+    const [isLiked, setIsLiked] = useState<Boolean>(false);
+    const [error, setError] = useState(null)
+    const addToDdFavList = async () => {
         if (!isLiked) {
             const liked = { name, location, logoUrl, ein }
-            // post request for name, location, logoUrl, ein
-            await axios.post('http://localhost:3000/api/favCharityList', liked).then((response) => console.log(response)).catch((error) => console.log(error))
+            await axios.post('http://localhost:3000/api/favCharityList', liked)
+                .then((response) => console.log(response))
+                .catch((err) => setError(err.response.data.msg))
         }
         setIsLiked(!isLiked)
+    }
+    const handleClick = () => {
+        addToDdFavList()
+        if (error !== null) {
+            setIsLiked(true)
+        }
     }
     return (
         <div className='flex flex-col justify-start items-start text-left w-60 h-80 m-4 p-4 bg-[--color-gold-light] rounded-3xl text-[--color-gray-4]'>
@@ -56,9 +63,13 @@ function Charity({ name, location, logoUrl, ein }: CharityData) {
                     <p>{name}</p>
                     {/* <p>{location}</p> */}
                 </div>
-                <div className='flex flex-row justify-around items-center w-full'>
-                    <button onClick={() => handleClick()} className='text-lg'>{isLiked ? <BiSolidLike /> : <BiLike />}</button>
-                    <button className='flex flex-row items-center text-lg'><small>Detail</small><MdReadMore /></button>
+                <div className='flex flex-col items-center'>
+                    {error && <p>{error}</p>}
+                    <div className='flex flex-row justify-around items-center w-full'>
+                        <button onClick={() => handleClick()} className='text-lg'>{isLiked ? <BiSolidLike /> : <BiLike />}</button>
+                        <button className='flex flex-row items-center text-lg'><small>Detail</small><MdReadMore /></button>
+                    </div>
+
                 </div>
             </div>
         </div>
