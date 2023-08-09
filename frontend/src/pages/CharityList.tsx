@@ -17,21 +17,23 @@ interface CharityData {
 export default function CharityList() {
     const [allData, setAllData] = useState<CharityData[]>([])
     const getAllData = async () => {
-        console.log(allData)
         await axios.get(url!)
             .then((res => {
                 setAllData(res.data.nonprofits)
             }))
             .catch(err => console.error(`Error: ${err}`))
+        console.log(allData)
     }
     useEffect(() => {
         getAllData();
     }, [])
     return (
-        <div className='flex flex-wrap justify-start h-fit'>
-            {allData.map((item) => {
-                return <Charity key={item.ein} name={item.name} location={item.location} logoUrl={item.logoUrl} ein={item.ein} />
-            })}
+        <div className='flex flex-wrap justify-center h-fit'>
+            <div className='flex flex-row flex-wrap justify-center w-fit max-w-[1500px]'>
+                {allData.map((item) => {
+                    return <Charity key={item.ein} name={item.name} location={item.location} logoUrl={item.logoUrl} ein={item.ein} />
+                })}
+            </div>
         </div>
     )
 }
