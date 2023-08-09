@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
 const CharitySchema = new mongoose.Schema({
-    ein: { type: String, required: true },
-    name: { type: String, required: true },
+    ein: { type: String, required: true, unique: true },
+    name: { type: String, required: true, unique: true },
     profileUrl: { type: String },
     matchedTerms: [{ type: String }],
     slug: { type: String },

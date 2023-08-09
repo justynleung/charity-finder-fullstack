@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes'
 import Charity from '../models/charity';
-import { NotFoundError } from '../errors';
+import { error } from 'console';
 
 const getAllFavCharities = async (req: Request, res: Response) => {
     const charities = await Charity.find({})
@@ -12,12 +12,13 @@ const getFavCharity = async (req: Request, res: Response) => {
     const { id: charityId } = req.params
     const charity = await Charity.findById({ _id: charityId })
     if (!charity) {
-        throw new NotFoundError(`No charity with id: ${charityId}`)
+        console.log(error)
     }
     res.status(StatusCodes.OK).json({ charity })
 }
 
 const createFavCharities = async (req: Request, res: Response) => {
+    const search = Charity.findOne({ ein: req.body.ein })
     const charity = await Charity.create(req.body)
     res.status(StatusCodes.OK).json({ charity })
 }

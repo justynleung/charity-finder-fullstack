@@ -41,12 +41,12 @@ export default function CharityList() {
 function Charity({ name, location, logoUrl, ein }: CharityData) {
     const [isLiked, setIsLiked] = useState(false);
     const handleClick = async () => {
+        if (!isLiked) {
+            const liked = { name, location, logoUrl, ein }
+            // post request for name, location, logoUrl, ein
+            await axios.post('http://localhost:3000/api/favCharityList', liked).then((response) => console.log(response)).catch((error) => console.log(error))
+        }
         setIsLiked(!isLiked)
-        console.log('clicked')
-        const data = { name, location, logoUrl, ein }
-        console.log(data)
-        // post request for name, location, logoUrl, ein
-        axios.post('http://localhost:3000/api/favCharityList', data).then((response) => console.log(response)).catch((error) => console.log(error))
     }
     return (
         <div className='flex flex-col justify-start items-start text-left w-60 h-80 m-4 p-4 bg-[--color-gold-light] rounded-3xl text-[--color-gray-4]'>

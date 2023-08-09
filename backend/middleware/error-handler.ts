@@ -9,6 +9,7 @@ const errorHandlerMiddleware = (err: CustomAPIError, req: Request, res: Response
         msg: err.message || 'Something went wrong try again later',
     };
 
+
     return res.status(customError.statusCode).json({ msg: customError.msg });
 };
 
