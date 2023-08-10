@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import placeholderImg from '../assets/No-Image-Placeholder.svg.png';
 import { MdReadMore } from 'react-icons/md';
 import CharityDetail from '../components/CharityDetail';
+import { AiOutlineDelete } from 'react-icons/ai';
 
 const apiRoute = "http://localhost:3000";
 
@@ -71,9 +72,9 @@ function FavCharity({ name, location, logoUrl, ein, _id, forceUpdate, hasUpdated
                 </div>
                 <div className='flex flex-col items-center'>
                     <div className='relative flex flex-row justify-around items-center w-full'>
-                        <button onClick={() => handleClick()} className='text-lg'>Delete</button>
+                        <button onClick={() => handleClick()} className='text-lg'><AiOutlineDelete /></button>
                         <button onClick={() => toggleModal()} className='flex flex-row items-center text-lg'><small>Detail</small><MdReadMore /></button>
-                        {!isHided && <CharityDetail _id={_id} name={name} location={location} logoUrl={logoUrl} ein={ein} />}
+                        {!isHided && <CharityDetail _id={_id} name={name} location={location} logoUrl={logoUrl} ein={ein} isHided={isHided} setIsHided={setIsHided} />}
                     </div>
                 </div>
             </div>

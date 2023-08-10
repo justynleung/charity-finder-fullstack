@@ -1,15 +1,27 @@
+import placeholderImg from '../assets/No-Image-Placeholder.svg.png';
 interface FavCharityData {
     name: string
     location: string
     logoUrl: string
     ein: string
     _id: string
+    isHided: Boolean
+    setIsHided: Function
 }
 
-const CharityDetail: React.FC<FavCharityData> = (props: FavCharityData) => {
+const CharityDetail: React.FC<FavCharityData> = ({ name, location, logoUrl, ein, _id, isHided, setIsHided }: FavCharityData) => {
     return (
         <>
-            <div className='absolute bg-red-400 h-36 w-36'></div>
+            <button onClick={() => setIsHided(!isHided)} className="fixed top-0 left-0 flex justify-center items-center w-screen h-screen bg-gray-700 bg-opacity-90 z-0"></button>
+            <div className='fixed left-[50%] top-[50%] mt-[-15rem] ml-[-15rem] flex flex-col justify-center items-center bg-[--color-gold-light] h-[30rem] w-[30rem] rounded-3xl z-10'>
+                <img className='w-52 h-36 mb-4' src={logoUrl ? logoUrl : placeholderImg} alt={`Logo of ${name}`} />
+                <div className='text-left'>
+                    <p>name: {name}</p>
+                    <p>location: {location}</p>
+                    <p>ein: {ein}</p>
+                </div>
+            </div>
+
         </>
     )
 }

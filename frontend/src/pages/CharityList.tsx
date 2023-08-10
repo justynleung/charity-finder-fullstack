@@ -49,7 +49,7 @@ function Charity({ name, location, logoUrl, ein }: CharityData) {
                 .then((response) => console.log(response))
                 .catch((err) => setError(err.response.data.msg))
         }
-        setIsLiked(!isLiked)
+        setIsLiked(true)
     }
     const handleClick = () => {
         addToDdFavList()
