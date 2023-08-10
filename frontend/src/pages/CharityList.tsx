@@ -4,7 +4,9 @@ import placeholderImg from '../assets/No-Image-Placeholder.svg.png';
 import { BiLike, BiSolidLike } from 'react-icons/bi'
 import { MdReadMore } from 'react-icons/md';
 
+
 const url = import.meta.env.VITE_API_KEY;
+const apiRoute = "http://localhost:3000";
 
 interface CharityData {
     name: string
@@ -43,7 +45,7 @@ function Charity({ name, location, logoUrl, ein }: CharityData) {
     const addToDdFavList = async () => {
         if (!isLiked) {
             const liked = { name, location, logoUrl, ein }
-            await axios.post('http://localhost:3000/api/favCharityList', liked)
+            await axios.post(`${apiRoute}/api/favCharityList`, liked)
                 .then((response) => console.log(response))
                 .catch((err) => setError(err.response.data.msg))
         }
