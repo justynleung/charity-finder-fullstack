@@ -41,23 +41,8 @@
   --box-shadow-1: 0 3px 15px rgba(0, 0, 0, .3);
 }
 
-.modal-opened {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  margin-top: -15rem;
-  margin-left: -15rem;
-  height: 30rem;
-  width: 30rem;
-  -webkit-transition: all 450ms ease-in-out;
-  -moz-transition: all 450ms ease-in-out;
-  -ms-transition: all 450ms ease-in-out;
-  -o-transition: all 450ms ease-in-out;
-  transition: all 450ms ease-in-out;
-}
-
 .start-animation {
-  animation-name: mobile-nav-transition-enter;
+  animation-name: animate-pop;
   animation-duration: 500ms;
   animation-timing-function: ease-in-out;
   /* width: 2rem;
@@ -67,17 +52,8 @@
   overflow: hidden; */
 }
 
-@keyframes mobile-nav-transition-enter {
-  from {
-    position: fixed;
-    width: 2rem;
-    height: 2rem;
-    background-color: var[--color-gold-light];
-    color: transparent;
-    overflow: hidden;
-  }
-
-  to {
+@keyframes animate-pop {
+  0% {
     position: fixed;
     left: 50%;
     top: 50%;
@@ -85,10 +61,19 @@
     margin-left: -15rem;
     height: 30rem;
     width: 30rem;
-    -webkit-transition: all 450ms ease-in-out;
-    -moz-transition: all 450ms ease-in-out;
-    -ms-transition: all 450ms ease-in-out;
-    -o-transition: all 450ms ease-in-out;
-    transition: all 450ms ease-in-out;
+    opacity: 0;
+    transform: scale(0.5, 0.5);
+  }
+
+  100% {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin-top: -15rem;
+    margin-left: -15rem;
+    height: 30rem;
+    width: 30rem;
+    opacity: 1;
+    transform: scale(1, 1);
   }
 }

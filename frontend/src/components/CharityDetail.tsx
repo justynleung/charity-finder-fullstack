@@ -17,7 +17,7 @@ const CharityDetail: React.FC<FavCharityData> = ({ name, location, logoUrl, ein,
     return (
         <>
             <button onClick={() => setIsHided(!isHided)} className="fixed top-0 left-0 flex justify-center items-center w-screen h-screen bg-gray-700 bg-opacity-90 z-0" />
-            <div className={modalWrapperClass}>
+            <div className={`${modalWrapperClass} start-animation`}>
                 <img className='w-52 h-36 mb-4' src={logoUrl ? logoUrl : placeholderImg} alt={`Logo of ${name}`} />
                 <div className='text-left'>
                     <p>name: {name}</p>
