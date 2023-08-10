@@ -36,7 +36,7 @@ export default function FavoriteList() {
         console.log("refreshed")
     }, [hasUpdated])
     return (
-        <div className='flex flex-col'>
+        <div className='flex flex-col text-[--color-text]'>
             <NavMenu />
             <h2 className='font-bold text-3xl'>{allData.length === 0 ? "No favorite charity" : "List of favorite charities"}</h2>
             <div className='flex flex-wrap justify-center h-fit'>
@@ -67,7 +67,7 @@ function FavCharity({ name, location, logoUrl, ein, _id, forceUpdate, hasUpdated
 
     return (
         <>
-            <div className='flex flex-col justify-start items-start text-left w-60 h-80 m-4 p-4 bg-[--color-gold-light] rounded-3xl text-[--color-gray-4]'>
+            <div className='flex flex-col justify-start items-start text-left w-60 h-80 m-4 p-4 bg-[--color-gold] rounded-3xl text-[--color-gray-4]'>
                 <img className='w-52 h-36' src={logoUrl ? logoUrl : placeholderImg} alt={`Logo of ${name}`} />
                 <div className='flex flex-col h-full w-full justify-between mt-1.5'>
                     <div>

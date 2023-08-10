@@ -34,7 +34,7 @@ export default function CharityList() {
     return (
         <div className='flex flex-wrap justify-center h-fit'>
             <SearchBar setFilter={setFilter} />
-            {!filter && <h3 className='font-bold text-2xl text-[--color-gold-light]'>Enter something to serach for charities!!!</h3>}
+            {!filter && <h3 className='font-bold text-2xl text-[--color-gold]'>Enter something to serach for charities!!!</h3>}
             <div className='flex flex-row flex-wrap justify-center w-fit max-w-[1500px]'>
                 {allData.map((item) => {
                     return <Charity key={item.ein} name={item.name} location={item.location} logoUrl={item.logoUrl} ein={item.ein} />
@@ -68,7 +68,7 @@ function Charity({ name, location, logoUrl, ein }: CharityData) {
     }
 
     return (
-        <div className='flex flex-col justify-start items-start text-left w-60 h-80 m-4 p-4 bg-[--color-gold-light] rounded-3xl text-[--color-gray-4]'>
+        <div className='flex flex-col justify-start items-start text-left w-60 h-80 m-4 p-4 bg-[--color-gold] rounded-3xl text-[--color-gray-4]'>
             <img className='w-52 h-36' src={logoUrl ? logoUrl : placeholderImg} alt={`Logo of ${name}`} />
             <div className='flex flex-col h-full w-full justify-between mt-1.5'>
                 <div>

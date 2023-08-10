@@ -21,7 +21,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-
+  /* 
   --color-blue: #005581;
   --color-blue-light: #72CDF4;
   --color-gold: #FFD200;
@@ -36,20 +36,50 @@
   --color-gray-3: #6c7983;
   --color-gray-4: #454e56;
   --color-gray-5: #2a2e35;
+  --color-gray-6: #12181b; */
+}
+
+.dark {
+  --color-blue: #005581;
+  --color-gold: #FFD200;
+  --color-text: #FFFFFF;
+  --color-border: #2f3336;
+  --color-bg: #454e56;
+  --color-white: #FFFFFF;
+  --color-black: #000;
+  --color-gray-0: #f8f8f8;
+  --color-gray-1: #dbe1e8;
+  --color-gray-2: #b2becd;
+  --color-gray-3: #6c7983;
+  --color-gray-4: #454e56;
+  --color-gray-5: #2a2e35;
   --color-gray-6: #12181b;
-  --br-sm-2: 14px;
-  --box-shadow-1: 0 3px 15px rgba(0, 0, 0, .3);
+  background-color: #242424;
+}
+
+.light {
+  --color-blue: #72CDF4;
+  --color-gold: #FFD200;
+  --color-gold-2: #FFE552;
+  --color-text: #242424;
+  --color-border: #2f3336;
+  --color-bg: #dbe1e8;
+  --color-white: #FFFFFF;
+  --color-black: #000;
+  --color-gray-0: #f8f8f8;
+  --color-gray-1: #dbe1e8;
+  --color-gray-2: #b2becd;
+  --color-gray-3: #6c7983;
+  --color-gray-4: #454e56;
+  --color-gray-5: #2a2e35;
+  --color-gray-6: #12181b;
+  background-color: #f8f8f8;
 }
 
 .start-animation {
   animation-name: animate-pop;
   animation-duration: 500ms;
   animation-timing-function: ease-in-out;
-  /* width: 2rem;
-  height: 2rem;
-  background-color: var[--color-gold-light];
-  color: transparent;
-  overflow: hidden; */
 }
 
 @keyframes animate-pop {
