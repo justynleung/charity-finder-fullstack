@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import placeholderImg from '../assets/No-Image-Placeholder.svg.png';
 import { MdReadMore } from 'react-icons/md';
+import CharityDetail from '../components/CharityDetail';
 
 const apiRoute = "http://localhost:3000";
 
@@ -47,7 +48,7 @@ export default function FavoriteList() {
 }
 
 function FavCharity({ name, location, logoUrl, ein, _id, forceUpdate, hasUpdated }: FavCharityData) {
-    const [error, setError] = useState<string | null>(null)
+    const [isHided, setIsHided] = useState<Boolean>(true)
     const deleteFromFavList = async () => {
         await axios.delete(`${apiRoute}/api/favCharityList/${_id}`)
             .then((response) => console.log(response))
@@ -56,6 +57,9 @@ function FavCharity({ name, location, logoUrl, ein, _id, forceUpdate, hasUpdated
     const handleClick = async () => {
         await deleteFromFavList()
         forceUpdate(!hasUpdated)
+    }
+    const toggleModal = () => {
+        setIsHided(!isHided)
     }
 
     return (
@@ -66,12 +70,11 @@ function FavCharity({ name, location, logoUrl, ein, _id, forceUpdate, hasUpdated
                     <p>{name}</p>
                 </div>
                 <div className='flex flex-col items-center'>
-                    {error && <p>{error}</p>}
-                    <div className='flex flex-row justify-around items-center w-full'>
-                        <button onClick={() => handleClick()} className='text-lg'>placeholder</button>
-                        <button className='flex flex-row items-center text-lg'><small>Detail</small><MdReadMore /></button>
+                    <div className='relative flex flex-row justify-around items-center w-full'>
+                        <button onClick={() => handleClick()} className='text-lg'>Delete</button>
+                        <button onClick={() => toggleModal()} className='flex flex-row items-center text-lg'><small>Detail</small><MdReadMore /></button>
+                        {!isHided && <CharityDetail _id={_id} name={name} location={location} logoUrl={logoUrl} ein={ein} />}
                     </div>
-
                 </div>
             </div>
         </div>
