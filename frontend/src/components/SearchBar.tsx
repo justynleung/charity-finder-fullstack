@@ -1,15 +1,33 @@
+import { Dispatch, SetStateAction, useState } from "react";
 import { NavLink } from "react-router-dom";
 
-export default function SearchBar() {
+
+interface Props {
+    setFilter: Dispatch<SetStateAction<string>>
+}
+
+const SearchBar: React.FC<Props> = ({ setFilter }) => {
+    const [value, setValue] = useState<string>('')
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(event.target.value)
+    }
+    const handleClick = () => {
+        setFilter(value)
+    }
     return (
         <div className="flex flex-row justify-center mt-32 mb-6 w-full">
             <NavLink to="/">
                 Back to home
             </NavLink>
-            <input type="text" placeholder="Search" className="w-2/6 mx-10" />
+            <div className="w-2/6 mx-4">
+                <input onChange={handleChange} type="text" placeholder="" className="w-8/12 mx-4" />
+                <button className="border border-black bg-[--color-gray-4] rounded px-2" onClick={handleClick}>Search</button>
+            </div>
             <NavLink to="/fav">
                 My favorite
             </NavLink>
-        </div>
+        </div >
     )
 }
+
+export default SearchBar;
