@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import placeholderImg from '../assets/No-Image-Placeholder.svg.png';
 import { BiLike, BiSolidLike } from 'react-icons/bi'
 import { MdReadMore } from 'react-icons/md';
+import CharityDetail from '../components/CharityDetail';
 
 
 const url = import.meta.env.VITE_API_KEY;
@@ -40,6 +41,7 @@ export default function CharityList() {
 }
 
 function Charity({ name, location, logoUrl, ein }: CharityData) {
+    const [isHided, setIsHided] = useState<Boolean>(true)
     const [isLiked, setIsLiked] = useState<Boolean>(false);
     const [error, setError] = useState(null)
     const addToDdFavList = async () => {
@@ -57,6 +59,10 @@ function Charity({ name, location, logoUrl, ein }: CharityData) {
             setIsLiked(true)
         }
     }
+    const toggleModal = () => {
+        setIsHided(!isHided)
+    }
+
     return (
         <div className='flex flex-col justify-start items-start text-left w-60 h-80 m-4 p-4 bg-[--color-gold-light] rounded-3xl text-[--color-gray-4]'>
             <img className='w-52 h-36' src={logoUrl ? logoUrl : placeholderImg} alt={`Logo of ${name}`} />
@@ -69,7 +75,8 @@ function Charity({ name, location, logoUrl, ein }: CharityData) {
                     {error && <p>{error}</p>}
                     <div className='flex flex-row justify-around items-center w-full'>
                         <button onClick={() => handleClick()} className='text-lg'>{isLiked ? <BiSolidLike /> : <BiLike />}</button>
-                        <button className='flex flex-row items-center text-lg'><small>Detail</small><MdReadMore /></button>
+                        <button onClick={() => toggleModal()} className='flex flex-row items-center text-lg'><small>Detail</small><MdReadMore /></button>
+                        {!isHided && <CharityDetail _id={ein} name={name} location={location} logoUrl={logoUrl} ein={ein} isHided={isHided} setIsHided={setIsHided} />}
                     </div>
 
                 </div>
