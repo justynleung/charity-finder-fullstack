@@ -21,10 +21,10 @@ const SearchBar: React.FC<Props> = ({ setFilter }) => {
             </NavLink>
             <div className="w-2/6 mx-4">
                 <input onChange={handleChange} type="text" placeholder="" className="w-8/12 mx-4" />
-                <button className="border border-black bg-[--color-gray-4] rounded px-2" onClick={handleClick}>Search</button>
+                <button className="border border-[--color-gray-5] bg-[--color-gray-4] rounded px-2" onClick={handleClick}>Search</button>
             </div>
             <NavLink to="/fav">
-                My favorite
+                My Favorite List
             </NavLink>
         </div >
     )
