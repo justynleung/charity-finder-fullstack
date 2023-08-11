@@ -52,7 +52,7 @@ function Charity({ name, location, logoUrl, ein }: CharityData) {
     const addToDdFavList = async () => {
         if (!isLiked) {
             const liked = { name, location, logoUrl, ein }
-            await axios.post(`${API}api/favCharityList`, liked)
+            await axios.post(`${API}/api/favCharityList`, liked)
                 .then((response) => console.log(response))
                 .catch((err) => setError(err.response.data.msg))
         }
