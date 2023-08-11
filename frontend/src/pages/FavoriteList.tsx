@@ -8,7 +8,7 @@ import NavMenu from '../components/NavMenu';
 import dotenv from 'dotenv';
 dotenv.config()
 
-const apiRoute = process.env.API_ROUTE || "http://localhost:3000";
+const apiRoute = import.meta.env.API_ROUTE || "http://localhost:3000";
 
 interface FavCharityData {
     name: string

@@ -9,7 +9,7 @@ import dotenv from 'dotenv';
 dotenv.config()
 
 const apiKey = import.meta.env.VITE_API_KEY;
-const apiRoute = process.env.API_ROUTE || "http://localhost:3000";
+const apiRoute = import.meta.env.API_ROUTE || "http://localhost:3000";
 
 interface CharityData {
     name: string
