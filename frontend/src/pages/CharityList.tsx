@@ -22,9 +22,10 @@ export default function CharityList() {
     const [allData, setAllData] = useState<CharityData[]>([])
     const [filter, setFilter] = useState<string>('a')
     const getAllData = async () => {
-        await axios.get(`https://partners.every.org/v0.2/search/${filter}?API_KEY=${API_KEY}`)
+        await axios.get(`https://partners.every.org/v0.2/search/${filter}?apiKey=${API_KEY}`)
             .then((res => {
                 setAllData(res.data.nonprofits)
+
             }))
             .catch(err => console.error(`Error: ${err}`))
     }
@@ -37,7 +38,7 @@ export default function CharityList() {
             {!filter && <h3 className='font-bold text-2xl text-[--color-gold]'>Enter something to serach for charities!!!</h3>}
             <div className='flex flex-row flex-wrap justify-center w-fit max-w-[1500px]'>
                 {allData.map((item) => {
-                    return <Charity key={item.ein} _id={item.ein} name={item.name} location={item.location} logoUrl={item.logoUrl} ein={item.ein} />
+                    return <Charity key={item.name} _id={item.ein} name={item.name} location={item.location} logoUrl={item.logoUrl} ein={item.ein} />
                 })}
             </div>
         </div>
