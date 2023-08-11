@@ -14,6 +14,7 @@ interface CharityData {
     name: string
     location: string
     logoUrl: string
+    _id: string
     ein: string
 }
 
@@ -44,7 +45,7 @@ export default function CharityList() {
     )
 }
 
-function Charity({ name, location, logoUrl, ein }: CharityData) {
+function Charity({ name, location, logoUrl, ein, _id }: CharityData) {
     const [isHided, setIsHided] = useState<Boolean>(true)
     const [isLiked, setIsLiked] = useState<Boolean>(false);
     const [error, setError] = useState(null)

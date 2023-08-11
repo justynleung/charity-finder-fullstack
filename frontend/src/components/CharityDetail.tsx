@@ -6,6 +6,7 @@ interface FavCharityData {
     location: string
     logoUrl: string
     ein: string
+    _id: string
     isHided: Boolean
     setIsHided: Function
 }
