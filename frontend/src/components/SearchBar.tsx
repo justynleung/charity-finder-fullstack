@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { NavLink } from "react-router-dom";
 
-
 interface Props {
     setFilter: Dispatch<SetStateAction<string>>
 }

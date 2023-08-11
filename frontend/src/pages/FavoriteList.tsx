@@ -5,7 +5,8 @@ import { MdReadMore } from 'react-icons/md';
 import CharityDetail from '../components/CharityDetail';
 import { AiOutlineDelete } from 'react-icons/ai';
 import NavMenu from '../components/NavMenu';
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config()
 
 const apiRoute = process.env.API_ROUTE || "http://localhost:3000";
 
