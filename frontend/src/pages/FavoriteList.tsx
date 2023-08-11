@@ -6,7 +6,7 @@ import CharityDetail from '../components/CharityDetail';
 import { AiOutlineDelete } from 'react-icons/ai';
 import NavMenu from '../components/NavMenu';
 
-const apiRoute = import.meta.env.VITE_API || "http://localhost:3000";
+const API = import.meta.env.API || "http://localhost:3000";
 
 interface FavCharityData {
     name: string
@@ -23,7 +23,7 @@ export default function FavoriteList() {
     const [allData, setAllData] = useState<FavCharityData[]>([])
     const [hasUpdated, setHasUpdated] = useState<Boolean>(true)
     const getFavList = async () => {
-        await axios.get(`${apiRoute}/api/favCharityList`)
+        await axios.get(`${API}/api/favCharityList`)
             .then((res => {
                 let arr = []
                 arr = [...res.data.charities]
@@ -53,7 +53,7 @@ export default function FavoriteList() {
 function FavCharity({ name, location, logoUrl, ein, _id, forceUpdate, hasUpdated }: FavCharityData) {
     const [isHided, setIsHided] = useState<Boolean>(true)
     const deleteFromFavList = async () => {
-        await axios.delete(`${apiRoute}/api/favCharityList/${_id}`)
+        await axios.delete(`${API}/api/favCharityList/${_id}`)
             .then((response) => console.log(response))
             .catch((err) => console.log(err))
     }

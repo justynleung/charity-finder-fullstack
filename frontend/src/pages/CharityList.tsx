@@ -6,8 +6,8 @@ import { MdReadMore } from 'react-icons/md';
 import CharityDetail from '../components/CharityDetail';
 import SearchBar from '../components/SearchBar';
 
-const apiKey = import.meta.env.VITE_API_KEY;
-const apiRoute = import.meta.env.VITE_API || "http://localhost:3000";
+const API_KEY = import.meta.env.API_KEY;
+const API = import.meta.env.API || "http://localhost:3000";
 
 interface CharityData {
     name: string
@@ -22,7 +22,7 @@ export default function CharityList() {
     const [allData, setAllData] = useState<CharityData[]>([])
     const [filter, setFilter] = useState<string>('a')
     const getAllData = async () => {
-        await axios.get(`https://partners.every.org/v0.2/search/${filter}?apiKey=${apiKey}`)
+        await axios.get(`https://partners.every.org/v0.2/search/${filter}?API_KEY=${API_KEY}`)
             .then((res => {
                 setAllData(res.data.nonprofits)
             }))
@@ -51,7 +51,7 @@ function Charity({ name, location, logoUrl, ein }: CharityData) {
     const addToDdFavList = async () => {
         if (!isLiked) {
             const liked = { name, location, logoUrl, ein }
-            await axios.post(`${apiRoute}/api/favCharityList`, liked)
+            await axios.post(`${API}/api/favCharityList`, liked)
                 .then((response) => console.log(response))
                 .catch((err) => setError(err.response.data.msg))
         }
