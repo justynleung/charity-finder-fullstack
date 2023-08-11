@@ -5,10 +5,10 @@ import { BiLike, BiSolidLike } from 'react-icons/bi'
 import { MdReadMore } from 'react-icons/md';
 import CharityDetail from '../components/CharityDetail';
 import SearchBar from '../components/SearchBar';
-
+require('dotenv').config();
 
 const apiKey = import.meta.env.VITE_API_KEY;
-const apiRoute = "http://localhost:3000";
+const apiRoute = process.env.API_ROUTE || "http://localhost:3000";
 
 interface CharityData {
     name: string

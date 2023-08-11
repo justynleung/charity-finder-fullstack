@@ -5,8 +5,9 @@ import { MdReadMore } from 'react-icons/md';
 import CharityDetail from '../components/CharityDetail';
 import { AiOutlineDelete } from 'react-icons/ai';
 import NavMenu from '../components/NavMenu';
+require('dotenv').config();
 
-const apiRoute = "http://localhost:3000";
+const apiRoute = process.env.API_ROUTE || "http://localhost:3000";
 
 interface FavCharityData {
     name: string
