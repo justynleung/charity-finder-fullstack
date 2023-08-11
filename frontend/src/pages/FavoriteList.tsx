@@ -6,7 +6,7 @@ import CharityDetail from '../components/CharityDetail';
 import { AiOutlineDelete } from 'react-icons/ai';
 import NavMenu from '../components/NavMenu';
 
-const API = import.meta.env.API || "http://localhost:3000";
+const API = import.meta.env.VITE_API || "http://localhost:3000";
 
 interface FavCharityData {
     name: string

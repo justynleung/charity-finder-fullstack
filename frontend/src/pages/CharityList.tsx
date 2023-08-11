@@ -6,8 +6,8 @@ import { MdReadMore } from 'react-icons/md';
 import CharityDetail from '../components/CharityDetail';
 import SearchBar from '../components/SearchBar';
 
-const API_KEY = import.meta.env.API_KEY;
-const API = import.meta.env.API || "http://localhost:3000";
+const API_KEY = import.meta.env.VITE_API_KEY;
+const API = import.meta.env.VITE_API || "http://localhost:3000";
 
 interface CharityData {
     name: string
