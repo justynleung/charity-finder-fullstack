@@ -21,8 +21,8 @@ const CharityDetail: React.FC<FavCharityData> = ({ name, location, logoUrl, ein,
                 <img className='w-52 h-36 mb-4' src={logoUrl ? logoUrl : placeholderImg} alt={`Logo of ${name}`} />
                 <div className='text-left w-[280px]'>
                     <p>name: {name}</p>
-                    <p>location: {location}</p>
-                    <p>ein: {ein}</p>
+                    <p>location: {location || 'Not provided'}</p>
+                    <p>ein: {ein || 'Not provided'}</p>
                 </div>
             </div>
 
