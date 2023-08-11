@@ -7,7 +7,7 @@ import CharityDetail from '../components/CharityDetail';
 import SearchBar from '../components/SearchBar';
 
 const apiKey = import.meta.env.API_KEY;
-const apiRoute = import.meta.env.API_ROUTE || "http://localhost:3000";
+const apiRoute = import.meta.env.API || "http://localhost:3000";
 
 interface CharityData {
     name: string
