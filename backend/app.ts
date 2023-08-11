@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express, Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
 dotenv.config();
 require('express-async-errors');
@@ -9,13 +9,8 @@ import { notFoundMiddleware, errorHandlerMiddleware } from './middleware';
 import { allowCors } from "./utils"
 
 const app: Express = express();
-// allow cors in development
+// allow cors 
 app.use(cors())
-// allow cors in production
-app.use(function (req, res, next) {
-    allowCors(req, res, next)
-});
-
 // Middleware
 app.use(express.json());
 // routes
