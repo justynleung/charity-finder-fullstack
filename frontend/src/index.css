@@ -45,7 +45,7 @@
   --color-text: #FFFFFF;
   --color-text-2: #FFFFFF;
   --color-border: #2f3336;
-  --color-bg: #454e56;
+  --color-bg: #6c7983;
   --color-white: #FFFFFF;
   --color-black: #000;
   --color-gray-0: #f8f8f8;
@@ -108,4 +108,16 @@
     opacity: 1;
     transform: scale(1, 1);
   }
+}
+
+.toggleDark {
+  transform: translateX(1.5rem);
+  transition: all 450ms ease-in-out;
+  background-color: var(--color-bg);
+}
+
+.toggleLight {
+  transform: translateX(0rem);
+  transition: all 450ms ease-in-out;
+  background-color: var(--color-bg);
 }
