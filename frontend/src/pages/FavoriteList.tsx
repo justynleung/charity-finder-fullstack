@@ -53,7 +53,7 @@ export default function FavoriteList() {
 function FavCharity({ name, location, logoUrl, ein, _id, forceUpdate, hasUpdated }: FavCharityData) {
     const [isHided, setIsHided] = useState<Boolean>(true)
     const deleteFromFavList = async () => {
-        await axios.delete(`${API}/api/favCharityList/${_id}`)
+        await axios.delete(`${API}api/favCharityList/${_id}`)
             .then((response) => console.log(response))
             .catch((err) => console.log(err))
     }
