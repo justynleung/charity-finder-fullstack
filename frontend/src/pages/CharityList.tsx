@@ -13,7 +13,6 @@ interface CharityData {
     name: string
     location: string
     logoUrl: string
-    _id: string
     ein: string
 }
 
@@ -38,7 +37,7 @@ export default function CharityList() {
             {!filter && <h3 className='font-bold text-2xl text-[--color-gold]'>Enter something to serach for charities!!!</h3>}
             <div className='flex flex-row flex-wrap justify-center w-fit max-w-[1500px]'>
                 {allData.map((item) => {
-                    return <Charity key={item.name} _id={item.ein} name={item.name} location={item.location} logoUrl={item.logoUrl} ein={item.ein} />
+                    return <Charity key={item.name} name={item.name} location={item.location} logoUrl={item.logoUrl} ein={item.ein} />
                 })}
             </div>
         </div>
