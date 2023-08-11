@@ -1,7 +1,26 @@
-import { TiTickOutline } from "react-icons/ti";
-import placeholderImg from "../assets/No-Image-Placeholder.svg.png";
+// Reacy
+import { useState } from "react";
 
-const Card = () => {
+// Asset
+import placeholderImg from "../assets/No-Image-Placeholder.svg.png";
+import { TiTickOutline, AiOutlineDelete, MdReadMore } from "../assets/react-icons";
+
+// Component
+import CharityDetail from "./CharityDetail";
+
+interface CharityData {
+    name: string
+    location: string
+    logoUrl: string
+    ein: string
+    _id: string
+}
+
+const Card = ({ name, location, logoUrl, ein, _id }: CharityData) => {
+    const [isHided, setIsHided] = useState<Boolean>(true)
+    const toggleModal = () => {
+        setIsHided(!isHided)
+    }
     return (
         <div className='relative flex flex-col justify-start items-start text-left w-60 h-80 m-4 p-4 bg-[--color-gold] rounded-3xl text-[--color-gray-4]'>
             <button className='absolute right-0 top-0 text-2xl border border-2 border-[--color-gray-1] rounded-3xl bg-[--color-gray-1]'><TiTickOutline /></button>

@@ -1,15 +1,14 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import placeholderImg from '../assets/No-Image-Placeholder.svg.png';
-import { MdReadMore } from 'react-icons/md';
 import CharityDetail from '../components/CharityDetail';
-import { AiOutlineDelete } from 'react-icons/ai';
 import NavMenu from '../components/NavMenu';
-import { TiTickOutline } from 'react-icons/ti';
+
+import { MdReadMore, AiOutlineDelete, TiTickOutline } from "../assets/react-icons"
 
 const API = import.meta.env.VITE_API || "http://localhost:3000";
 
-interface FavCharityData {
+interface CharityData {
     name: string
     location: string
     logoUrl: string
@@ -21,7 +20,7 @@ interface FavCharityData {
 
 
 export default function FavoriteList() {
-    const [allData, setAllData] = useState<FavCharityData[]>([])
+    const [allData, setAllData] = useState<CharityData[]>([])
     const [hasUpdated, setHasUpdated] = useState<Boolean>(true)
     const getFavList = async () => {
         await axios.get(`${API}/api/favCharityList`)
@@ -50,7 +49,7 @@ export default function FavoriteList() {
     )
 }
 
-function FavCharity({ name, location, logoUrl, ein, _id, forceUpdate, hasUpdated }: FavCharityData) {
+const FavCharity: React.FC<CharityData> = ({ name, location, logoUrl, ein, _id, forceUpdate, hasUpdated }) => {
     const [isHided, setIsHided] = useState<Boolean>(true)
     const deleteFromFavList = async () => {
         await axios.delete(`${API}/api/favCharityList/${_id}`)
