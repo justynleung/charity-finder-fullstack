@@ -33,7 +33,6 @@ export default function FavoriteList() {
     }
     useEffect(() => {
         getFavList();
-        console.log("refreshed")
     }, [hasUpdated])
     return (
         <div className='flex flex-col text-[--color-text]'>
