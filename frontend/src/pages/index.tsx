@@ -5,7 +5,7 @@ import { useState } from 'react';
 export default function RootLayout() {
     const [darkMode, setDarkMode] = useState<Boolean>(true)
     return (
-        <div className={`${darkMode ? 'dark' : 'light'} w-screen h-screen`}>
+        <div className={`${darkMode ? 'dark' : 'light'} w-screen h-max`}>
             <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
             <Outlet />
         </div>

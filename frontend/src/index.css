@@ -12,10 +12,6 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -37,6 +33,10 @@
   --color-gray-4: #454e56;
   --color-gray-5: #2a2e35;
   --color-gray-6: #12181b; */
+}
+
+body {
+  overscroll-behavior-y: none;
 }
 
 .dark {
