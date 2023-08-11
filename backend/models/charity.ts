@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 const CharitySchema = new mongoose.Schema({
     ein: {
         type: String,
-        required: [true, 'please provide ein'],
         unique: [true, 'already on your fav list']
     },
     name: {
