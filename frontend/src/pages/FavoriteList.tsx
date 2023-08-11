@@ -23,7 +23,7 @@ export default function FavoriteList() {
     const [allData, setAllData] = useState<FavCharityData[]>([])
     const [hasUpdated, setHasUpdated] = useState<Boolean>(true)
     const getFavList = async () => {
-        await axios.get(`${API}/api/favCharityList`)
+        await axios.get(`${API}api/favCharityList`)
             .then((res => {
                 let arr = []
                 arr = [...res.data.charities]
