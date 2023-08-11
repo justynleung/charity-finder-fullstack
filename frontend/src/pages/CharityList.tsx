@@ -6,8 +6,8 @@ import { MdReadMore } from 'react-icons/md';
 import CharityDetail from '../components/CharityDetail';
 import SearchBar from '../components/SearchBar';
 
-const apiKey = import.meta.env.API_KEY;
-const apiRoute = import.meta.env.API || "http://localhost:3000";
+const apiKey = import.meta.env.VITE_API_KEY;
+const apiRoute = import.meta.env.VITE_API || "http://localhost:3000";
 
 interface CharityData {
     name: string
@@ -20,7 +20,7 @@ interface CharityData {
 
 export default function CharityList() {
     const [allData, setAllData] = useState<CharityData[]>([])
-    const [filter, setFilter] = useState<string>('')
+    const [filter, setFilter] = useState<string>('a')
     const getAllData = async () => {
         await axios.get(`https://partners.every.org/v0.2/search/${filter}?apiKey=${apiKey}`)
             .then((res => {
