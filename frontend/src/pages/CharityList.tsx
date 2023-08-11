@@ -38,14 +38,14 @@ export default function CharityList() {
             {!filter && <h3 className='font-bold text-2xl text-[--color-gold]'>Enter something to serach for charities!!!</h3>}
             <div className='flex flex-row flex-wrap justify-center w-fit max-w-[1500px]'>
                 {allData.map((item) => {
-                    return <Charity key={item.ein} name={item.name} location={item.location} logoUrl={item.logoUrl} ein={item.ein} />
+                    return <Charity key={item.ein} _id={item.ein} name={item.name} location={item.location} logoUrl={item.logoUrl} ein={item.ein} />
                 })}
             </div>
         </div>
     )
 }
 
-function Charity({ name, location, logoUrl, ein, _id }: CharityData) {
+function Charity({ name, location, logoUrl, ein }: CharityData) {
     const [isHided, setIsHided] = useState<Boolean>(true)
     const [isLiked, setIsLiked] = useState<Boolean>(false);
     const [error, setError] = useState(null)
