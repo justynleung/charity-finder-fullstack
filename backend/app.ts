@@ -6,10 +6,16 @@ import cors from 'cors';
 import connect from './dbConfig/dbConfig';
 import favListRoutes from './routes/favList';
 import { notFoundMiddleware, errorHandlerMiddleware } from './middleware';
+import { allowCors } from "./utils"
 
 const app: Express = express();
-
+// allow cors in development
 app.use(cors())
+// allow cors in production
+app.use(function (req, res, next) {
+    allowCors(req, res, next)
+});
+
 // Middleware
 app.use(express.json());
 // routes
