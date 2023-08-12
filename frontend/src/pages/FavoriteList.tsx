@@ -12,7 +12,9 @@ import placeholderImg from '../assets/No-Image-Placeholder.svg.png';
 // Services
 import { deleteFromFavList } from '../services';
 import Card from '../components/Card';
-const API = import.meta.env.VITE_API || "http://localhost:3000";
+// const API = import.meta.env.VITE_API || "http://localhost:3000";
+const API = "http://localhost:3000";
+
 
 interface FavCharityData {
     name: string
@@ -85,6 +87,7 @@ const FavCharity: React.FC<FavCharityData> = ({ name, location, logoUrl, ein, _i
                 eventBtn={<DeleteBtn />}
             />
         </>
+
     )
 }
 
