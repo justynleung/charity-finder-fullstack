@@ -23,9 +23,10 @@ interface CardContent {
     ein: string
     _id: string
     handleClick: () => Promise<void> | void
+    eventBtn: JSX.Element
 }
 
-const Card = ({ name, location, logoUrl, _id, ein, handleClick }: CardContent) => {
+const Card = ({ name, location, logoUrl, _id, ein, handleClick, eventBtn }: CardContent) => {
     const [isHided, setIsHided] = useState<Boolean>(true)
     const toggleModal = () => {
         setIsHided(!isHided)
@@ -40,7 +41,7 @@ const Card = ({ name, location, logoUrl, _id, ein, handleClick }: CardContent) =
                 </div>
                 <div className='flex flex-col items-center'>
                     <div className='relative flex flex-row justify-around items-center w-full'>
-                        <button onClick={handleClick} className='text-lg'><AiOutlineDelete /></button>
+                        {eventBtn}
                         <button onClick={() => toggleModal()} className='flex flex-row items-center text-lg'><small>Detail</small><MdReadMore /></button>
                         {!isHided && <CharityDetail _id={_id} name={name} location={location} logoUrl={logoUrl} ein={ein} isHided={isHided} setIsHided={setIsHided} />}
                     </div>

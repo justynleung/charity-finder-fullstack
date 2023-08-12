@@ -14,7 +14,7 @@ import { deleteFromFavList } from '../services';
 import Card from '../components/Card';
 const API = import.meta.env.VITE_API || "http://localhost:3000";
 
-interface CharityData {
+interface FavCharityData {
     name: string
     location: string
     logoUrl: string
@@ -26,7 +26,7 @@ interface CharityData {
 
 
 export default function FavoriteList() {
-    const [allData, setAllData] = useState<CharityData[]>([])
+    const [allData, setAllData] = useState<FavCharityData[]>([])
     const [hasUpdated, setHasUpdated] = useState<Boolean>(true)
     const getFavList = async () => {
         await axios.get(`${API}/api/favCharityList`)
@@ -56,8 +56,8 @@ export default function FavoriteList() {
     )
 }
 
-const FavCharity: React.FC<CharityData> = ({ name, location, logoUrl, ein, _id, forceUpdate, hasUpdated }) => {
-    const [isHided, setIsHided] = useState<Boolean>(true)
+const FavCharity: React.FC<FavCharityData> = ({ name, location, logoUrl, ein, _id, forceUpdate, hasUpdated }) => {
+    // const [isHided, setIsHided] = useState<Boolean>(true)
     const deleteFromFavList = async () => {
         await axios.delete(`${API}/api/favCharityList/${_id}`)
             .then((response) => console.log(response))
@@ -68,9 +68,10 @@ const FavCharity: React.FC<CharityData> = ({ name, location, logoUrl, ein, _id, 
         await deleteFromFavList()
         forceUpdate(!hasUpdated)
     }
-    const toggleModal = () => {
-        setIsHided(!isHided)
-    }
+    // const toggleModal = () => {
+    //     setIsHided(!isHided)
+    // }
+    const DeleteBtn = () => <button onClick={() => handleClick()} className='text-lg'><AiOutlineDelete /></button>
 
     return (
         <>
@@ -81,6 +82,7 @@ const FavCharity: React.FC<CharityData> = ({ name, location, logoUrl, ein, _id, 
                 ein={ein}
                 _id={_id}
                 handleClick={handleClick}
+                eventBtn={<DeleteBtn />}
             />
         </>
     )
@@ -97,7 +99,7 @@ const FavCharity: React.FC<CharityData> = ({ name, location, logoUrl, ein, _id, 
 //         </div>
 //         <div className='flex flex-col items-center'>
 //             <div className='relative flex flex-row justify-around items-center w-full'>
-//                 <button onClick={() => handleClick()} className='text-lg'><AiOutlineDelete /></button>
+                // <button onClick={() => handleClick()} className='text-lg'><AiOutlineDelete /></button>
 //                 <button onClick={() => toggleModal()} className='flex flex-row items-center text-lg'><small>Detail</small><MdReadMore /></button>
 //                 {!isHided && <CharityDetail _id={_id} name={name} location={location} logoUrl={logoUrl} ein={ein} isHided={isHided} setIsHided={setIsHided} />}
 //             </div>

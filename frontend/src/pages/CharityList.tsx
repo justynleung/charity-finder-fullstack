@@ -60,7 +60,7 @@ export default function CharityList() {
 }
 
 function Charity({ name, location, logoUrl, ein }: CharityData) {
-    const [isHided, setIsHided] = useState<Boolean>(true)
+    // const [isHided, setIsHided] = useState<Boolean>(true)
     const [isLiked, setIsLiked] = useState<Boolean>(false);
     const [error, setError] = useState(null)
     const addToDdFavList = async () => {
@@ -78,9 +78,10 @@ function Charity({ name, location, logoUrl, ein }: CharityData) {
             setIsLiked(true)
         }
     }
-    const toggleModal = () => {
-        setIsHided(!isHided)
-    }
+    const AddFavBtn = () => <button onClick={() => handleClick()} className='text-lg'>{isLiked ? <BiSolidLike /> : <BiLike />}</button>
+    // const toggleModal = () => {
+    //     setIsHided(!isHided)
+    // }
 
     return (
         <>
@@ -89,8 +90,9 @@ function Charity({ name, location, logoUrl, ein }: CharityData) {
                 location={location}
                 logoUrl={logoUrl}
                 ein={ein}
-                handleClick={handleClick}
                 _id={ein}
+                handleClick={handleClick}
+                eventBtn={<AddFavBtn />}
             />
         </>
         // <div className='relative flex flex-col justify-start items-start text-left w-60 h-80 m-4 p-4 bg-[--color-gold] rounded-3xl text-[--color-gray-4]'>
@@ -103,7 +105,7 @@ function Charity({ name, location, logoUrl, ein }: CharityData) {
         //         <div className='flex flex-col items-center'>
         //             {error && <p>{error}</p>}
         //             <div className='flex flex-row justify-around items-center w-full'>
-        //                 <button onClick={() => handleClick()} className='text-lg'>{isLiked ? <BiSolidLike /> : <BiLike />}</button>
+        // <button onClick={() => handleClick()} className='text-lg'>{isLiked ? <BiSolidLike /> : <BiLike />}</button>
         //                 <button onClick={() => toggleModal()} className='flex flex-row items-center text-lg'><small>Detail</small><MdReadMore /></button>
         //                 {!isHided && <CharityDetail _id={ein} name={name} location={location} logoUrl={logoUrl} ein={ein} isHided={isHided} setIsHided={setIsHided} />}
         //             </div>
