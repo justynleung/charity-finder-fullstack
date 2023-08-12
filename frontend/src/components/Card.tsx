@@ -8,15 +8,24 @@ import { TiTickOutline, AiOutlineDelete, MdReadMore } from "../assets/react-icon
 // Component
 import CharityDetail from "./CharityDetail";
 
-interface CharityData {
+// interface CharityData {
+//     name: string
+//     location: string
+//     logoUrl: string
+//     ein: string
+//     _id: string
+// }
+
+interface CardContent {
     name: string
     location: string
     logoUrl: string
     ein: string
     _id: string
+    handleClick: () => Promise<void> | void
 }
 
-const Card = ({ name, location, logoUrl, ein, _id }: CharityData) => {
+const Card = ({ name, location, logoUrl, _id, ein, handleClick }: CardContent) => {
     const [isHided, setIsHided] = useState<Boolean>(true)
     const toggleModal = () => {
         setIsHided(!isHided)
@@ -31,7 +40,7 @@ const Card = ({ name, location, logoUrl, ein, _id }: CharityData) => {
                 </div>
                 <div className='flex flex-col items-center'>
                     <div className='relative flex flex-row justify-around items-center w-full'>
-                        <button onClick={() => handleClick()} className='text-lg'><AiOutlineDelete /></button>
+                        <button onClick={handleClick} className='text-lg'><AiOutlineDelete /></button>
                         <button onClick={() => toggleModal()} className='flex flex-row items-center text-lg'><small>Detail</small><MdReadMore /></button>
                         {!isHided && <CharityDetail _id={_id} name={name} location={location} logoUrl={logoUrl} ein={ein} isHided={isHided} setIsHided={setIsHided} />}
                     </div>
