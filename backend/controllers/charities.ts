@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes'
 import Charity from '../models/charity';
-import { error } from 'console';
 
 const getAllFavCharities = async (req: Request, res: Response) => {
     const charities = await Charity.find({})
