@@ -8,7 +8,8 @@ const CharitySchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'please provide name'],
-        unique: [true, 'already on your fav list']
+        unique: true,
+        sparse: true
     },
     profileUrl: { type: String },
     matchedTerms: [{ type: String }],

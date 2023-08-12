@@ -12,7 +12,7 @@ const getFavCharity = async (req: Request, res: Response) => {
     const { id: charityId } = req.params
     const charity = await Charity.findById({ _id: charityId })
     if (!charity) {
-        console.log(error)
+        console.log('no chairty on yr fav list')
     }
     res.status(StatusCodes.OK).json({ charity })
 }
