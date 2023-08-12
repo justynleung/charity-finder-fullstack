@@ -1,17 +1,15 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 // Components
-import CharityDetail from '../components/CharityDetail';
 import NavMenu from '../components/NavMenu';
 
 // Asset
 import { MdReadMore, AiOutlineDelete, TiTickOutline } from "../assets/react-icons"
-import placeholderImg from '../assets/No-Image-Placeholder.svg.png';
 
 // Services
-import { deleteFromFavList } from '../services';
+import { deleteFromFavList, getFavList } from '../services';
 import Card from '../components/Card';
+
 // const API = import.meta.env.VITE_API || "http://localhost:3000";
 const API = "http://localhost:3000";
 
@@ -30,19 +28,14 @@ interface FavCharityData {
 export default function FavoriteList() {
     const [allData, setAllData] = useState<FavCharityData[]>([])
     const [hasUpdated, setHasUpdated] = useState<Boolean>(true)
-    const getFavList = async () => {
-        await axios.get(`${API}/api/favCharityList`)
-            .then((res => {
-                let arr = []
-                arr = [...res.data.charities]
-                setAllData(arr)
-                return arr
-            }))
-            .catch(err => console.error(`Error: ${err}`))
-    }
+
     useEffect(() => {
-        getFavList();
+        getFavList(API)
+            .then((data) => {
+                setAllData(data);
+            });
     }, [hasUpdated])
+
     return (
         <div className='flex flex-col text-[--color-text]'>
             <NavMenu />
@@ -59,15 +52,13 @@ export default function FavoriteList() {
 }
 
 const FavCharity: React.FC<FavCharityData> = ({ name, location, logoUrl, ein, _id, forceUpdate, hasUpdated }) => {
-    // const [isHided, setIsHided] = useState<Boolean>(true)
+
     const handleClick = async () => {
         await deleteFromFavList({ API, _id })
             .then(forceUpdate(!hasUpdated))
             .catch((err) => console.log(err))
     }
-    // const toggleModal = () => {
-    //     setIsHided(!isHided)
-    // }
+
     const DeleteBtn = () => <button onClick={() => handleClick()} className='text-lg'><AiOutlineDelete /></button>
 
     return (
@@ -78,7 +69,6 @@ const FavCharity: React.FC<FavCharityData> = ({ name, location, logoUrl, ein, _i
                 logoUrl={logoUrl}
                 ein={ein}
                 _id={_id}
-                handleClick={handleClick}
                 eventBtn={<DeleteBtn />}
             />
         </>

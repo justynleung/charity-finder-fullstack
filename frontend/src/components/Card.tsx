@@ -3,7 +3,7 @@ import { useState } from "react";
 
 // Asset
 import placeholderImg from "../assets/No-Image-Placeholder.svg.png";
-import { TiTickOutline, AiOutlineDelete, MdReadMore } from "../assets/react-icons";
+import { TiTickOutline, MdReadMore } from "../assets/react-icons";
 
 // Component
 import CharityDetail from "./CharityDetail";
@@ -22,11 +22,10 @@ interface CardContent {
     logoUrl: string
     ein: string
     _id: string
-    handleClick: () => Promise<void> | void
     eventBtn: JSX.Element
 }
 
-const Card = ({ name, location, logoUrl, _id, ein, handleClick, eventBtn }: CardContent) => {
+const Card = ({ name, location, logoUrl, _id, ein, eventBtn }: CardContent) => {
     const [isHided, setIsHided] = useState<Boolean>(true)
     const toggleModal = () => {
         setIsHided(!isHided)

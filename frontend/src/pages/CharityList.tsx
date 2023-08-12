@@ -1,15 +1,16 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState, useMemo } from 'react';
 import { NavLink } from "react-router-dom";
 
+// Services
+import { getDataFromEveryOrg, addFavToDb } from '../services';
+
 // Components
-import CharityDetail from '../components/CharityDetail';
 import SearchBar from '../components/SearchBar';
 import Card from '../components/Card';
 
 // Asset
 import { BiLike, BiSolidLike, TiTickOutline, TiTick, MdReadMore } from "../assets/react-icons";
-import placeholderImg from '../assets/No-Image-Placeholder.svg.png';
 
 // Style
 import { buttonPrimary } from '../assets/stylingTailwind';
@@ -24,6 +25,7 @@ interface CharityData {
     location: string
     logoUrl: string
     ein: string
+    setError: Dispatch<SetStateAction<string | null>>
 }
 
 
@@ -32,22 +34,29 @@ export default function CharityList() {
     const [selectMode, setSelectMode] = useState<Boolean>(false);
     const [allData, setAllData] = useState<CharityData[]>([])
     const [filter, setFilter] = useState<string>('a')
-    const getAllData = async () => {
-        await axios.get(`https://partners.every.org/v0.2/search/${filter}?apiKey=${API_KEY}`)
-            .then((res => {
-                setAllData(res.data.nonprofits)
-            }))
-            .catch(err => console.error(`Error: ${err}`))
-    }
+
+    useMemo(() => {
+        const timer = setTimeout(() => {
+            setError(null)
+        }, 2000);
+        return () => clearTimeout(timer);
+    }, [error])
+
     const addSelected = () => {
         console.log('first')
     }
+
     useEffect(() => {
-        getAllData();
+        getDataFromEveryOrg({ filter, API_KEY })
+            .then((res) => {
+                setAllData(res)
+            })
+
     }, [filter])
+    const errorClassName = 'fixed top-[17%] flex justify-center items-center w-96 h-12 bg-red-300 border-red-500 border-2 rounded text-red-700 font-bold z-20'
     return (
-        <div className='flex flex-col justify-center items-center h-fit text-[--color-text] w-screen'>
-            <div className='relative'>{error && <p className='absolute'>{error}</p>}</div>
+        <div className='relative flex flex-col justify-center items-center h-fit text-[--color-text] w-screen'>
+            {error && <div className={`${errorClassName} alert-animation`}>{error}</div>}
             <div className="flex flex-row justify-center items-center mt-32 max-w-[60vw]">
                 <SelectMultiple setSelectMode={setSelectMode} selectMode={selectMode} />
                 <SearchBar setFilter={setFilter} />
@@ -62,36 +71,35 @@ export default function CharityList() {
             {!filter && <h3 className='font-bold text-2xl text-[--color-gold]'>Enter something to serach for charities!!!</h3>}
             <div className='flex flex-row flex-wrap justify-center w-fit max-w-[1500px]'>
                 {allData.map((item) => {
-                    return <Charity key={item.name} name={item.name} location={item.location} logoUrl={item.logoUrl} ein={item.ein} />
+                    return <Charity key={item.name} name={item.name} location={item.location} logoUrl={item.logoUrl} ein={item.ein} setError={setError} />
                 })}
             </div>
         </div>
     )
 }
 
-function Charity({ name, location, logoUrl, ein }: CharityData) {
-    // const [isHided, setIsHided] = useState<Boolean>(true)
+function Charity({ name, location, logoUrl, ein, setError }: CharityData) {
     const [isLiked, setIsLiked] = useState<Boolean>(false);
-    const [error, setError] = useState(null)
-    const addToDdFavList = async () => {
-        if (!isLiked) {
-            const liked = { name, location, logoUrl }
-            await axios.post(`${API}/api/favCharityList`, liked)
-                .then((response) => console.log(response))
-                .catch((err) => setError(err.response.data.msg))
-        }
-        setIsLiked(true)
-    }
-    const handleClick = () => {
-        addToDdFavList()
-        if (error !== null) {
-            setIsLiked(true)
-        }
-    }
-    const AddFavBtn = () => <button onClick={() => handleClick()} className='text-lg'>{isLiked ? <BiSolidLike /> : <BiLike />}</button>
-    // const toggleModal = () => {
-    //     setIsHided(!isHided)
+    // const addToDdFavList = async () => {
+    //     if (!isLiked) {
+    //         const liked = { name, location, logoUrl }
+    //         await axios.post(`${API}/api/favCharityList`, liked)
+    //             .then((response) => console.log(response))
+    //             .catch((err) => setError(err.response.data.msg))
+    //     }
+    //     setIsLiked(true)
     // }
+
+    const handleClick = () => {
+        const likedCharity = { name, location, logoUrl }
+        addFavToDb({ isLiked, likedCharity, API })
+            .then((res) => {
+                res === 'Already in fav list' && setError(res)
+                setIsLiked(true)
+            })
+    }
+
+    const AddFavBtn = () => <button onClick={() => handleClick()} className='text-lg'>{isLiked ? <BiSolidLike /> : <BiLike />}</button>
 
     return (
         <>
@@ -101,10 +109,13 @@ function Charity({ name, location, logoUrl, ein }: CharityData) {
                 logoUrl={logoUrl}
                 ein={ein}
                 _id={ein}
-                handleClick={handleClick}
                 eventBtn={<AddFavBtn />}
             />
         </>
+    )
+}
+
+
         // <div className='relative flex flex-col justify-start items-start text-left w-60 h-80 m-4 p-4 bg-[--color-gold] rounded-3xl text-[--color-gray-4]'>
         //     <button className='absolute right-0 top-0 text-2xl border border-2 border-[--color-gray-1] rounded-3xl bg-[--color-gray-1]'><TiTickOutline /></button>
         //     <img className='w-52 h-36' src={logoUrl ? logoUrl : placeholderImg} alt={`Logo of ${name}`} />
@@ -122,14 +133,3 @@ function Charity({ name, location, logoUrl, ein }: CharityData) {
         //         </div>
         //     </div>
         // </div>
-
-
-    )
-}
-
-
-// We made a dump with ``–oplog`` from a properly working system, but when restoring it we constantly faced `E11000 duplicate key` errors.
-
-// The duplicate key obviously doesn't exist on the dumped database as it has an unique index, but as the dump takes hours to complete, it looks like that data that was deleted ends up being into the dump and data that was created after delation while the dump is running ends up being there too.
-
-// This is the kind of situation that ``–oplogReplay`` should address, but it looks like the oplog is replayed after the indexes were recreated and thus the restore fails while recreating the indexes as it faces a state where duplicate data is present.
