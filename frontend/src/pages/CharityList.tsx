@@ -26,6 +26,7 @@ interface CharityData {
     logoUrl: string
     ein: string
     setError: Dispatch<SetStateAction<string | null>>
+    selectMode: Boolean
 }
 
 
@@ -71,14 +72,14 @@ export default function CharityList() {
             {!filter && <h3 className='font-bold text-2xl text-[--color-gold]'>Enter something to serach for charities!!!</h3>}
             <div className='flex flex-row flex-wrap justify-center w-fit max-w-[1500px]'>
                 {allData.map((item) => {
-                    return <Charity key={item.name} name={item.name} location={item.location} logoUrl={item.logoUrl} ein={item.ein} setError={setError} />
+                    return <Charity key={item.name} name={item.name} location={item.location} logoUrl={item.logoUrl} ein={item.ein} setError={setError} selectMode={selectMode} />
                 })}
             </div>
         </div>
     )
 }
 
-function Charity({ name, location, logoUrl, ein, setError }: CharityData) {
+function Charity({ name, location, logoUrl, ein, setError, selectMode }: CharityData) {
     const [isLiked, setIsLiked] = useState<Boolean>(false);
     // const addToDdFavList = async () => {
     //     if (!isLiked) {
@@ -110,6 +111,7 @@ function Charity({ name, location, logoUrl, ein, setError }: CharityData) {
                 ein={ein}
                 _id={ein}
                 eventBtn={<AddFavBtn />}
+                selectMode={selectMode}
             />
         </>
     )

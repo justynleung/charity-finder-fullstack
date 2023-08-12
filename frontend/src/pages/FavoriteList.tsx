@@ -22,12 +22,15 @@ interface FavCharityData {
     _id: string
     forceUpdate: Function
     hasUpdated: Boolean
+    selectMode: Boolean
 }
 
 
 export default function FavoriteList() {
-    const [allData, setAllData] = useState<FavCharityData[]>([])
-    const [hasUpdated, setHasUpdated] = useState<Boolean>(true)
+    const [allData, setAllData] = useState<FavCharityData[]>([]);
+    const [hasUpdated, setHasUpdated] = useState<Boolean>(true);
+    const [selectMode, setSelectMode] = useState<Boolean>(false);
+
 
     useEffect(() => {
         getFavList(API)
@@ -43,7 +46,7 @@ export default function FavoriteList() {
             <div className='flex flex-wrap justify-center h-fit'>
                 <div className='flex flex-row flex-wrap justify-center w-fit max-w-[1500px]'>
                     {allData.map((item) => {
-                        return <FavCharity key={item._id} _id={item._id} name={item.name} location={item.location} logoUrl={item.logoUrl} ein={item.ein} forceUpdate={setHasUpdated} hasUpdated={hasUpdated} />
+                        return <FavCharity key={item._id} _id={item._id} name={item.name} location={item.location} logoUrl={item.logoUrl} ein={item.ein} forceUpdate={setHasUpdated} hasUpdated={hasUpdated} selectMode={selectMode} />
                     })}
                 </div>
             </div>
@@ -51,7 +54,7 @@ export default function FavoriteList() {
     )
 }
 
-const FavCharity: React.FC<FavCharityData> = ({ name, location, logoUrl, ein, _id, forceUpdate, hasUpdated }) => {
+const FavCharity: React.FC<FavCharityData> = ({ name, location, logoUrl, ein, _id, forceUpdate, hasUpdated, selectMode }) => {
 
     const handleClick = async () => {
         await deleteFromFavList({ API, _id })
@@ -70,6 +73,7 @@ const FavCharity: React.FC<FavCharityData> = ({ name, location, logoUrl, ein, _i
                 ein={ein}
                 _id={_id}
                 eventBtn={<DeleteBtn />}
+                selectMode={selectMode}
             />
         </>
 

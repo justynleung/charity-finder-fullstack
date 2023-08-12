@@ -7,6 +7,7 @@ import { TiTickOutline, MdReadMore } from "../assets/react-icons";
 
 // Component
 import CharityDetail from "./CharityDetail";
+import { set } from "mongoose";
 
 // interface CharityData {
 //     name: string
@@ -23,16 +24,31 @@ interface CardContent {
     ein: string
     _id: string
     eventBtn: JSX.Element
+    selectMode: Boolean
 }
 
-const Card = ({ name, location, logoUrl, _id, ein, eventBtn }: CardContent) => {
+const Card = ({ name, location, logoUrl, _id, ein, eventBtn, selectMode }: CardContent) => {
     const [isHided, setIsHided] = useState<Boolean>(true)
+    const [selected, setSelected] = useState<Boolean>(false)
     const toggleModal = () => {
         setIsHided(!isHided)
     }
+    const btnClassName = 'absolute right-0 top-0 text-2xl border border-2 border-[--color-gray-1] rounded-3xl bg-[--color-gray-1]'
+    const divClassName = 'relative flex flex-col justify-start items-start text-left w-60 h-80 m-4 p-4 bg-[--color-gold] rounded-3xl text-[--color-gray-4] border-[5px] border-transparent shadow-lg'
     return (
-        <div className='relative flex flex-col justify-start items-start text-left w-60 h-80 m-4 p-4 bg-[--color-gold] rounded-3xl text-[--color-gray-4]'>
-            <button className='absolute right-0 top-0 text-2xl border border-2 border-[--color-gray-1] rounded-3xl bg-[--color-gray-1]'><TiTickOutline /></button>
+        <div className={`
+            ${divClassName}
+            ${selected && 'card-focus'}
+        `}>
+            <button
+                onClick={() => setSelected(!selected)}
+                className={`
+                    ${btnClassName} 
+                    ${!selectMode && 'hidden'}
+                    ${selected && 'btn-focus'}
+                `}>
+                <TiTickOutline />
+            </button>
             <img className='w-52 h-36' src={logoUrl ? logoUrl : placeholderImg} alt={`Logo of ${name}`} />
             <div className='flex flex-col h-full w-full justify-between mt-1.5'>
                 <div>
