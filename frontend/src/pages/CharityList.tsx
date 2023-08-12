@@ -1,12 +1,15 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import placeholderImg from '../assets/No-Image-Placeholder.svg.png';
-import { BiLike, BiSolidLike } from 'react-icons/bi'
-import { MdReadMore } from 'react-icons/md';
-import { TiTickOutline, TiTick } from 'react-icons/ti'
+
+// Components
 import CharityDetail from '../components/CharityDetail';
 import SearchBar from '../components/SearchBar';
 
+// Asset
+import { BiLike, BiSolidLike, TiTickOutline, TiTick, MdReadMore } from "../assets/react-icons";
+import placeholderImg from '../assets/No-Image-Placeholder.svg.png';
+
+// Style
 import { buttonPrimary } from '../assets/stylingTailwind';
 
 const API_KEY = import.meta.env.VITE_API_KEY;

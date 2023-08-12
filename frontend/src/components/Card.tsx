@@ -1,4 +1,4 @@
-// Reacy
+// React
 import { useState } from "react";
 
 // Asset
