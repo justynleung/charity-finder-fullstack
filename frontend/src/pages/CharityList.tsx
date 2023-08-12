@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { NavLink } from "react-router-dom";
 
 // Components
 import CharityDetail from '../components/CharityDetail';
@@ -12,6 +13,7 @@ import placeholderImg from '../assets/No-Image-Placeholder.svg.png';
 
 // Style
 import { buttonPrimary } from '../assets/stylingTailwind';
+import SelectMultiple from '../components/SelectMultiple';
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 // const API = import.meta.env.VITE_API || "http://localhost:3000";
@@ -26,6 +28,7 @@ interface CharityData {
 
 
 export default function CharityList() {
+    const [error, setError] = useState<string | null>(null)
     const [selectMode, setSelectMode] = useState<Boolean>(false);
     const [allData, setAllData] = useState<CharityData[]>([])
     const [filter, setFilter] = useState<string>('a')
@@ -33,7 +36,6 @@ export default function CharityList() {
         await axios.get(`https://partners.every.org/v0.2/search/${filter}?apiKey=${API_KEY}`)
             .then((res => {
                 setAllData(res.data.nonprofits)
-
             }))
             .catch(err => console.error(`Error: ${err}`))
     }
@@ -44,9 +46,16 @@ export default function CharityList() {
         getAllData();
     }, [filter])
     return (
-        <div className='flex flex-wrap justify-center h-fit text-[--color-text]'>
-            <SearchBar setFilter={setFilter} setSelectMode={setSelectMode} selectMode={selectMode} />
-            <div className={`${selectMode ? '' : 'invisible'}`}>
+        <div className='flex flex-col justify-center items-center h-fit text-[--color-text] w-screen'>
+            <div className='relative'>{error && <p className='absolute'>{error}</p>}</div>
+            <div className="flex flex-row justify-center items-center mt-32 max-w-[60vw]">
+                <SelectMultiple setSelectMode={setSelectMode} selectMode={selectMode} />
+                <SearchBar setFilter={setFilter} />
+                <NavLink to="/fav" className="w-60">
+                    My Favorite List
+                </NavLink>
+            </div>
+            <div className={`${selectMode ? '' : 'invisible'} mt-6`}>
                 <button className={`${buttonPrimary} mr-4`} onClick={addSelected}>Add Selected</button>
                 <button className={buttonPrimary} onClick={() => setSelectMode(false)}>Exit</button>
             </div>

@@ -25,9 +25,15 @@ const getFavList = async ({ API }: AxiosArg) => {
 }
 
 const deleteFromFavList = async ({ API, _id }: AxiosArg) => {
-    await axios.delete(`${API}/api/favCharityList/${_id}`)
-        .then((response) => console.log(response))
-        .catch((err) => console.log(err))
+    try {
+        await axios.delete(`${API}/api/favCharityList/${_id}`)
+    } catch (error) {
+        return error
+    }
+
+    // await axios.delete(`${API}/api/favCharityList/${_id}`)
+    //     .then((response) => console.log(response))
+    //     .catch((err) => console.log(err))
 }
 
 export { deleteFromFavList, getFavList }

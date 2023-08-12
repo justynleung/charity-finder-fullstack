@@ -60,15 +60,10 @@ export default function FavoriteList() {
 
 const FavCharity: React.FC<FavCharityData> = ({ name, location, logoUrl, ein, _id, forceUpdate, hasUpdated }) => {
     // const [isHided, setIsHided] = useState<Boolean>(true)
-    const deleteFromFavList = async () => {
-        await axios.delete(`${API}/api/favCharityList/${_id}`)
-            .then((response) => console.log(response))
-            .catch((err) => console.log(err))
-    }
-
     const handleClick = async () => {
-        await deleteFromFavList()
-        forceUpdate(!hasUpdated)
+        await deleteFromFavList({ API, _id })
+            .then(forceUpdate(!hasUpdated))
+            .catch((err) => console.log(err))
     }
     // const toggleModal = () => {
     //     setIsHided(!isHided)
