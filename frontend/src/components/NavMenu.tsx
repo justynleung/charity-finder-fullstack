@@ -1,10 +1,10 @@
 import { NavLink } from "react-router-dom";
-
+import { buttonPrimary } from "../assets/stylingTailwind";
 
 export default function NavMenu() {
     return (
-        <div className="flex flex-row justify-center mt-32 mb-6 w-full">
-            <NavLink to="/">
+        <div >
+            <NavLink to="/" className={`${buttonPrimary} flex w-40 justify-center mr-2`}>
                 Back to home
             </NavLink>
         </div>

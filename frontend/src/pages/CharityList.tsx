@@ -7,13 +7,14 @@ import { getDataFromEveryOrg, addFavToDb } from '../services';
 // Components
 import SearchBar from '../components/SearchBar';
 import Card from '../components/Card';
+import SelectMultiple from '../components/SelectMultiple';
 
 // Asset
 import { BiLike, BiSolidLike } from "../assets/react-icons";
 
 // Style
 import { buttonPrimary } from '../assets/stylingTailwind';
-import SelectMultiple from '../components/SelectMultiple';
+
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 const API = import.meta.env.VITE_API || "http://localhost:3000";
@@ -51,13 +52,12 @@ export default function CharityList() {
 
     const addSelected = async () => {
         console.log(itemsSelected)
-        const addAllToDb = await Promise.all(itemsSelected.map((item) => {
+        await Promise.all(itemsSelected.map((item) => {
             console.log(item)
             let likedCharity = item
             let isLiked = false
             addFavToDb({ isLiked, API, likedCharity }).then((res) => console.log(res))
         }))
-        addAllToDb
     }
 
     useEffect(() => {
@@ -69,16 +69,16 @@ export default function CharityList() {
 
     const errorClassName = 'fixed top-[17%] flex justify-center items-center w-96 h-12 bg-red-300 border-red-500 border-2 rounded text-red-700 font-bold z-20'
     return (
-        <div className='relative flex flex-col justify-center items-center h-fit text-[--color-text] w-screen'>
+        <div className='relative flex flex-col self-start justify-center items-center h-fit text-[--color-text] w-screen'>
             {error && <div className={`${errorClassName} alert-animation`}>{error}</div>}
-            <div className="flex flex-row justify-center items-center mt-32 max-w-[60vw]">
+            <div className="sticky top-[6rem] flex flex-row justify-center items-center mt-32 max-w-[60vw] z-10 bg-[--color-system-bg] p-4">
                 <SelectMultiple setSelectMode={setSelectMode} selectMode={selectMode} />
                 <SearchBar setFilter={setFilter} />
-                <NavLink to="/fav" className="w-60">
+                <NavLink to="/fav" className={`${buttonPrimary} w-40`}>
                     My Favorite List
                 </NavLink>
             </div>
-            <div className={`${selectMode ? '' : 'invisible'} mt-6`}>
+            <div className={`${selectMode ? '' : 'invisible'} sticky top-[9rem] bg-[--color-system-bg] p-4 z-10`}>
                 <button className={`${buttonPrimary} mr-4`} onClick={addSelected}>Add Selected</button>
                 <button className={buttonPrimary} onClick={() => setSelectMode(false)}>Exit</button>
             </div>

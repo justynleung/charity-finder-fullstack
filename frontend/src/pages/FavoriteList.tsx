@@ -1,14 +1,18 @@
-import { useEffect, useState, Dispatch, SetStateAction } from 'react';
+import { useEffect, useState, Dispatch, SetStateAction, useMemo } from 'react';
 
 // Components
 import NavMenu from '../components/NavMenu';
+import SelectMultiple from '../components/SelectMultiple';
 
 // Asset
 import { AiOutlineDelete } from "../assets/react-icons"
 
 // Services
 import { deleteFromFavList, getFavList } from '../services';
-import Card from '../components/Card';
+import FavCard from '../components/FavCard';
+
+// Style
+import { buttonPrimary } from '../assets/stylingTailwind';
 
 const API = import.meta.env.VITE_API || "http://localhost:3000";
 // const API = "http://localhost:3000";
@@ -25,7 +29,7 @@ interface DLocal extends CharityData {
     forceUpdate: Function
     hasUpdated: Boolean
     selectMode: Boolean
-    itemsSelected: CharityData[]
+    favItemsSelected: CharityData[]
     setItemsSelected: Dispatch<SetStateAction<CharityData[] | []>>
 }
 
@@ -36,18 +40,38 @@ export default function FavoriteList() {
     const [selectMode, setSelectMode] = useState<Boolean>(false);
     const [itemsSelected, setItemsSelected] = useState<CharityData[] | []>([])
 
-
-
     useEffect(() => {
         getFavList(API)
             .then((data) => {
                 setAllData(data);
             });
-    }, [hasUpdated])
+    }, [hasUpdated, selectMode])
+
+    const removeSelected = async () => {
+        console.log(itemsSelected)
+        await Promise.all(itemsSelected.map((item) => {
+            var _id = item._id
+            deleteFromFavList({ API, _id })
+        }))
+        setTimeout(() => {
+            setHasUpdated(!hasUpdated)
+        }, 500);
+    }
+
+    const resetSelected = () => {
+        setSelectMode(false)
+    }
 
     return (
-        <div className='flex flex-col text-[--color-text]'>
-            <NavMenu />
+        <div className='flex flex-col justify-center items-center self-start w-full text-[--color-text] '>
+            <div className='mt-32 sticky top-[6rem] flex flex-row justify-center items-center text-center bg-[--color-system-bg] p-4 z-10'>
+                <NavMenu />
+                <SelectMultiple setSelectMode={setSelectMode} selectMode={selectMode} />
+            </div>
+            <div className={`${selectMode ? '' : 'invisible'} sticky top-[9rem] bg-[--color-system-bg] p-4 z-10`}>
+                <button className={`${buttonPrimary} mr-4`} onClick={removeSelected}>Remove Selected</button>
+                <button className={buttonPrimary} onClick={() => setSelectMode(false)}>Exit</button>
+            </div>
             <h2 className='font-bold text-3xl'>{allData.length === 0 ? "No favorite charity" : "List of favorite charities"}</h2>
             <div className='flex flex-wrap justify-center h-fit'>
                 <div className='flex flex-row flex-wrap justify-center w-fit max-w-[1500px]'>
@@ -58,7 +82,7 @@ export default function FavoriteList() {
                                 forceUpdate={setHasUpdated}
                                 hasUpdated={hasUpdated}
                                 selectMode={selectMode}
-                                itemsSelected={itemsSelected}
+                                favItemsSelected={itemsSelected}
                                 setItemsSelected={setItemsSelected}
                             />
                         )
@@ -70,7 +94,7 @@ export default function FavoriteList() {
     )
 }
 
-const FavCharity: React.FC<DLocal> = ({ name, location, logoUrl, ein, _id, forceUpdate, hasUpdated, selectMode, itemsSelected, setItemsSelected }) => {
+const FavCharity: React.FC<DLocal> = ({ name, location, logoUrl, ein, _id, forceUpdate, hasUpdated, selectMode, favItemsSelected, setItemsSelected }) => {
 
     const handleClick = async () => {
         await deleteFromFavList({ API, _id })
@@ -81,7 +105,7 @@ const FavCharity: React.FC<DLocal> = ({ name, location, logoUrl, ein, _id, force
 
     return (
         <>
-            <Card
+            <FavCard
                 name={name}
                 location={location}
                 logoUrl={logoUrl}
@@ -89,7 +113,7 @@ const FavCharity: React.FC<DLocal> = ({ name, location, logoUrl, ein, _id, force
                 _id={_id}
                 eventBtn={<DeleteBtn />}
                 selectMode={selectMode}
-                itemsSelected={itemsSelected}
+                itemsSelected={favItemsSelected}
                 setItemsSelected={setItemsSelected}
             />
         </>

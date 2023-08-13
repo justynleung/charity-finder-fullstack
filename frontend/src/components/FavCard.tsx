@@ -40,12 +40,12 @@ const Card = ({ name, location, logoUrl, _id, ein, eventBtn, selectMode, itemsSe
         let checkExistence = itemsSelected.find((item) => name === item.name)
         if (!checkExistence) {
             let data = [...itemsSelected]
-            data.push({ name, location, logoUrl, ein })
+            data.push({ name, location, logoUrl, ein, _id })
             setItemsSelected(data)
         } else setItemsSelected([...itemsSelected])
         setSelected(!selected)
     }
-    const btnClassName = 'absolute right-0 top-0 text-3xl border border-2 border-[--color-gray-1] rounded-3xl bg-[--color-gray-1]'
+    const btnClassName = 'absolute right-0 top-0 text-2xl border border-2 border-[--color-gray-1] rounded-3xl bg-[--color-gray-1]'
     const divClassName = 'relative flex flex-col justify-start items-start text-left w-60 h-80 m-4 p-4 bg-[--color-gold] rounded-3xl text-[--color-gray-4] border-[5px] border-transparent shadow-lg'
     return (
         <div className={`
@@ -55,15 +55,15 @@ const Card = ({ name, location, logoUrl, _id, ein, eventBtn, selectMode, itemsSe
             <button
                 onClick={handleClick}
                 className={`
-                 absolute w-full h-full left-0 top-0
-                    ${!selectMode && 'hidden'}
-                `}>
+                  absolute w-full h-full left-0 top-0
+                     ${!selectMode && 'hidden'}
+                 `}>
                 <TiTickOutline
                     className={`
                         ${btnClassName} 
                         ${!selectMode && 'hidden'}
                         ${selected && 'btn-focus'}
-                `} />
+                    `} />
             </button>
             <img className='w-52 h-36' src={logoUrl ? logoUrl : placeholderImg} alt={`Logo of ${name}`} />
             <div className='flex flex-col h-full w-full justify-between mt-1.5'>

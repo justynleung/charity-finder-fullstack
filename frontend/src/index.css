@@ -46,6 +46,7 @@ body {
   --color-text-2: #FFFFFF;
   --color-border: #2f3336;
   --color-bg: #6c7983;
+  --color-system-bg: #242424;
   --color-white: #FFFFFF;
   --color-black: #000;
   --color-gray-0: #f8f8f8;
@@ -66,6 +67,7 @@ body {
   --color-text-2: #FFFFFF;
   --color-border: #2f3336;
   --color-bg: #dbe1e8;
+  --color-system-bg: #f8f8f8;
   --color-white: #FFFFFF;
   --color-black: #000;
   --color-gray-0: #f8f8f8;
@@ -172,5 +174,5 @@ body {
 
 .btn-focus {
   background-color: #0789c9;
-  border: #0789c9;
+  border: #0789c9 2px solid;
 }
