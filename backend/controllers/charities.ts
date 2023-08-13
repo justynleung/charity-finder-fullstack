@@ -25,7 +25,7 @@ const removeFavCharity = async (req: Request, res: Response) => {
     const { id: charityId } = req.params
     const charity = await Charity.findOneAndDelete({ _id: charityId })
     if (!charity) {
-        return `No task with id : ${charityId}`
+        return `No charity with id : ${charityId}`
     }
     res.status(200).json({ charity })
 }
