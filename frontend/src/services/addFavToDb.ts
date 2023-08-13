@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 interface Param {
     isLiked: Boolean;
     likedCharity: Object;
@@ -10,8 +10,8 @@ const addFavToDb = async ({ isLiked, likedCharity, API }: Param) => {
             const res = await axios.post(`${API}/api/favCharityList`, likedCharity)
             return res
         }
-    } catch (err) {
-        return err
+    } catch (err: any) {
+        return err.response.data.msg
     }
 }
 

@@ -58,6 +58,7 @@ export default function CharityList() {
             let isLiked = false
             addFavToDb({ isLiked, API, likedCharity }).then((res) => console.log(res))
         }))
+        setSelectMode(false)
     }
 
     useEffect(() => {
@@ -70,7 +71,7 @@ export default function CharityList() {
     const errorClassName = 'fixed top-[17%] flex justify-center items-center w-96 h-12 bg-red-300 border-red-500 border-2 rounded text-red-700 font-bold z-20'
     return (
         <div className='relative flex flex-col self-start justify-center items-center h-fit text-[--color-text] w-screen'>
-            {error && <div className={`${errorClassName} alert-animation`}>{error}</div>}
+            {error && <div className={`${errorClassName} alert-animation z-30`}>{error}</div>}
             <div className="sticky top-[6rem] flex flex-row justify-center items-center mt-32 max-w-[60vw] z-10 bg-[--color-system-bg] p-4">
                 <SelectMultiple setSelectMode={setSelectMode} selectMode={selectMode} />
                 <SearchBar setFilter={setFilter} />
@@ -114,8 +115,10 @@ function Charity({ name, location, logoUrl, ein, setError, selectMode, itemsSele
         const likedCharity = { name, location, logoUrl }
         addFavToDb({ isLiked, likedCharity, API })
             .then((res) => {
-                res === 'Already in fav list' && setError(res)
+                console.log(res)
+                res !== null && setError(res)
                 setIsLiked(true)
+
             })
     }
 
