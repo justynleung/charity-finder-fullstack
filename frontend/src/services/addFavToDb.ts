@@ -11,7 +11,7 @@ const addFavToDb = async ({ isLiked, likedCharity, API }: Param) => {
             return res
         }
     } catch (err) {
-        return ('Already in fav list')
+        return err
     }
 }
 

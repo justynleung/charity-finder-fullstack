@@ -3,14 +3,14 @@ import { Dispatch, SetStateAction, useEffect, useState, useMemo } from 'react';
 import { NavLink } from "react-router-dom";
 
 // Services
-import { getDataFromEveryOrg, addFavToDb } from '../services';
+import { getDataFromEveryOrg, addFavToDb, addFetchDataToDb } from '../services';
 
 // Components
 import SearchBar from '../components/SearchBar';
 import Card from '../components/Card';
 
 // Asset
-import { BiLike, BiSolidLike, TiTickOutline, TiTick, MdReadMore } from "../assets/react-icons";
+import { BiLike, BiSolidLike } from "../assets/react-icons";
 
 // Style
 import { buttonPrimary } from '../assets/stylingTailwind';
@@ -25,14 +25,21 @@ interface CharityData {
     location: string
     logoUrl: string
     ein: string
+    _id: string
+}
+
+interface DLocal extends CharityData {
     setError: Dispatch<SetStateAction<string | null>>
     selectMode: Boolean
+    itemsSelected: CharityData[]
+    setItemsSelected: Dispatch<SetStateAction<CharityData[] | []>>
 }
 
 
 export default function CharityList() {
     const [error, setError] = useState<string | null>(null)
     const [selectMode, setSelectMode] = useState<Boolean>(false);
+    const [itemsSelected, setItemsSelected] = useState<CharityData[] | []>([])
     const [allData, setAllData] = useState<CharityData[]>([])
     const [filter, setFilter] = useState<string>('a')
 
@@ -43,8 +50,14 @@ export default function CharityList() {
         return () => clearTimeout(timer);
     }, [error])
 
-    const addSelected = () => {
-        console.log('first')
+    const addSelected = async () => {
+        console.log(itemsSelected)
+        const addAllToDb = await Promise.all(itemsSelected.map((item) => {
+            let likedCharity = item
+            let isLiked = false
+            addFavToDb({ isLiked, API, likedCharity }).then((res) => console.log(res))
+        }))
+        addAllToDb
     }
 
     useEffect(() => {
@@ -72,14 +85,20 @@ export default function CharityList() {
             {!filter && <h3 className='font-bold text-2xl text-[--color-gold]'>Enter something to serach for charities!!!</h3>}
             <div className='flex flex-row flex-wrap justify-center w-fit max-w-[1500px]'>
                 {allData.map((item) => {
-                    return <Charity key={item.name} name={item.name} location={item.location} logoUrl={item.logoUrl} ein={item.ein} setError={setError} selectMode={selectMode} />
+                    return <Charity
+                        key={item.name} name={item.name} location={item.location} logoUrl={item.logoUrl} ein={item.ein}
+                        setError={setError}
+                        selectMode={selectMode}
+                        itemsSelected={itemsSelected}
+                        setItemsSelected={setItemsSelected}
+                    />
                 })}
             </div>
         </div>
     )
 }
 
-function Charity({ name, location, logoUrl, ein, setError, selectMode }: CharityData) {
+function Charity({ name, location, logoUrl, ein, setError, selectMode, itemsSelected, setItemsSelected }: DLocal) {
     const [isLiked, setIsLiked] = useState<Boolean>(false);
     // const addToDdFavList = async () => {
     //     if (!isLiked) {
@@ -112,6 +131,8 @@ function Charity({ name, location, logoUrl, ein, setError, selectMode }: Charity
                 _id={ein}
                 eventBtn={<AddFavBtn />}
                 selectMode={selectMode}
+                itemsSelected={itemsSelected}
+                setItemsSelected={setItemsSelected}
             />
         </>
     )
