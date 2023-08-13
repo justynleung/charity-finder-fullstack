@@ -38,7 +38,7 @@ const Card = ({ name, location, logoUrl, _id, ein, eventBtn, selectMode, itemsSe
         let checkExistence = itemsSelected.find((item) => name === item.name)
         if (!checkExistence) {
             let data = [...itemsSelected]
-            data.push({ name, location, logoUrl, ein, _id })
+            data.push({ name, location, logoUrl, ein })
             setItemsSelected(data)
         } else setItemsSelected([...itemsSelected])
         setSelected(!selected)

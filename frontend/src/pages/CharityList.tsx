@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction, useEffect, useState, useMemo } from 'react';
 import { NavLink } from "react-router-dom";
 
 // Services
-import { getDataFromEveryOrg, addFavToDb, addFetchDataToDb } from '../services';
+import { getDataFromEveryOrg, addFavToDb } from '../services';
 
 // Components
 import SearchBar from '../components/SearchBar';
@@ -53,6 +53,7 @@ export default function CharityList() {
     const addSelected = async () => {
         console.log(itemsSelected)
         const addAllToDb = await Promise.all(itemsSelected.map((item) => {
+            console.log(item)
             let likedCharity = item
             let isLiked = false
             addFavToDb({ isLiked, API, likedCharity }).then((res) => console.log(res))
@@ -65,8 +66,8 @@ export default function CharityList() {
             .then((res) => {
                 setAllData(res)
             })
-
     }, [filter])
+
     const errorClassName = 'fixed top-[17%] flex justify-center items-center w-96 h-12 bg-red-300 border-red-500 border-2 rounded text-red-700 font-bold z-20'
     return (
         <div className='relative flex flex-col justify-center items-center h-fit text-[--color-text] w-screen'>
@@ -86,7 +87,7 @@ export default function CharityList() {
             <div className='flex flex-row flex-wrap justify-center w-fit max-w-[1500px]'>
                 {allData.map((item) => {
                     return <Charity
-                        key={item.name} name={item.name} location={item.location} logoUrl={item.logoUrl} ein={item.ein}
+                        key={item.name} name={item.name} location={item.location} logoUrl={item.logoUrl} ein={item.ein} _id={item.name}
                         setError={setError}
                         selectMode={selectMode}
                         itemsSelected={itemsSelected}
@@ -128,7 +129,7 @@ function Charity({ name, location, logoUrl, ein, setError, selectMode, itemsSele
                 location={location}
                 logoUrl={logoUrl}
                 ein={ein}
-                _id={ein}
+                _id={name}
                 eventBtn={<AddFavBtn />}
                 selectMode={selectMode}
                 itemsSelected={itemsSelected}
