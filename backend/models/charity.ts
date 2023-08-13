@@ -3,13 +3,13 @@ import mongoose from "mongoose";
 const CharitySchema = new mongoose.Schema({
     ein: {
         type: String,
-        unique: [true, 'already on your fav list']
     },
     name: {
         type: String,
         required: [true, 'please provide name'],
+        index: true,
         unique: true,
-        sparse: true
+        sparse: true,
     },
     profileUrl: { type: String },
     matchedTerms: [{ type: String }],

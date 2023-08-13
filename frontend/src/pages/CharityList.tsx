@@ -1,92 +1,158 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import placeholderImg from '../assets/No-Image-Placeholder.svg.png';
-import { BiLike, BiSolidLike } from 'react-icons/bi'
-import { MdReadMore } from 'react-icons/md';
-import CharityDetail from '../components/CharityDetail';
+import { Dispatch, SetStateAction, useEffect, useState, useMemo } from 'react';
+import { NavLink } from "react-router-dom";
+
+// Services
+import { getDataFromEveryOrg, addFavToDb } from '../services';
+
+// Components
 import SearchBar from '../components/SearchBar';
+import Card from '../components/Card';
+
+// Asset
+import { BiLike, BiSolidLike } from "../assets/react-icons";
+
+// Style
+import { buttonPrimary } from '../assets/stylingTailwind';
+import SelectMultiple from '../components/SelectMultiple';
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 const API = import.meta.env.VITE_API || "http://localhost:3000";
+// const API = "http://localhost:3000";
 
 interface CharityData {
     name: string
     location: string
     logoUrl: string
     ein: string
+    _id?: string
+}
+
+interface DLocal extends CharityData {
+    setError: Dispatch<SetStateAction<string | null>>
+    selectMode: Boolean
+    itemsSelected: CharityData[]
+    setItemsSelected: Dispatch<SetStateAction<CharityData[] | []>>
 }
 
 
 export default function CharityList() {
+    const [error, setError] = useState<string | null>(null)
+    const [selectMode, setSelectMode] = useState<Boolean>(false);
+    const [itemsSelected, setItemsSelected] = useState<CharityData[] | []>([])
     const [allData, setAllData] = useState<CharityData[]>([])
     const [filter, setFilter] = useState<string>('a')
-    const getAllData = async () => {
-        await axios.get(`https://partners.every.org/v0.2/search/${filter}?apiKey=${API_KEY}`)
-            .then((res => {
-                setAllData(res.data.nonprofits)
 
-            }))
-            .catch(err => console.error(`Error: ${err}`))
+    useMemo(() => {
+        const timer = setTimeout(() => {
+            setError(null)
+        }, 2000);
+        return () => clearTimeout(timer);
+    }, [error])
+
+    const addSelected = async () => {
+        console.log(itemsSelected)
+        const addAllToDb = await Promise.all(itemsSelected.map((item) => {
+            console.log(item)
+            let likedCharity = item
+            let isLiked = false
+            addFavToDb({ isLiked, API, likedCharity }).then((res) => console.log(res))
+        }))
+        addAllToDb
     }
+
     useEffect(() => {
-        getAllData();
+        getDataFromEveryOrg({ filter, API_KEY })
+            .then((res) => {
+                setAllData(res)
+            })
     }, [filter])
+
+    const errorClassName = 'fixed top-[17%] flex justify-center items-center w-96 h-12 bg-red-300 border-red-500 border-2 rounded text-red-700 font-bold z-20'
     return (
-        <div className='flex flex-wrap justify-center h-fit'>
-            <SearchBar setFilter={setFilter} />
+        <div className='relative flex flex-col justify-center items-center h-fit text-[--color-text] w-screen'>
+            {error && <div className={`${errorClassName} alert-animation`}>{error}</div>}
+            <div className="flex flex-row justify-center items-center mt-32 max-w-[60vw]">
+                <SelectMultiple setSelectMode={setSelectMode} selectMode={selectMode} />
+                <SearchBar setFilter={setFilter} />
+                <NavLink to="/fav" className="w-60">
+                    My Favorite List
+                </NavLink>
+            </div>
+            <div className={`${selectMode ? '' : 'invisible'} mt-6`}>
+                <button className={`${buttonPrimary} mr-4`} onClick={addSelected}>Add Selected</button>
+                <button className={buttonPrimary} onClick={() => setSelectMode(false)}>Exit</button>
+            </div>
             {!filter && <h3 className='font-bold text-2xl text-[--color-gold]'>Enter something to serach for charities!!!</h3>}
             <div className='flex flex-row flex-wrap justify-center w-fit max-w-[1500px]'>
                 {allData.map((item) => {
-                    return <Charity key={item.name} name={item.name} location={item.location} logoUrl={item.logoUrl} ein={item.ein} />
+                    return <Charity
+                        key={item.name} name={item.name} location={item.location} logoUrl={item.logoUrl} ein={item.ein}
+                        setError={setError}
+                        selectMode={selectMode}
+                        itemsSelected={itemsSelected}
+                        setItemsSelected={setItemsSelected}
+                    />
                 })}
             </div>
         </div>
     )
 }
 
-function Charity({ name, location, logoUrl, ein }: CharityData) {
-    const [isHided, setIsHided] = useState<Boolean>(true)
+function Charity({ name, location, logoUrl, ein, setError, selectMode, itemsSelected, setItemsSelected }: DLocal) {
     const [isLiked, setIsLiked] = useState<Boolean>(false);
-    const [error, setError] = useState(null)
-    const addToDdFavList = async () => {
-        if (!isLiked) {
-            const liked = { name, location, logoUrl }
-            await axios.post(`${API}/api/favCharityList`, liked)
-                .then((response) => console.log(response))
-                .catch((err) => setError(err.response.data.msg))
-        }
-        setIsLiked(true)
-    }
+    // const addToDdFavList = async () => {
+    //     if (!isLiked) {
+    //         const liked = { name, location, logoUrl }
+    //         await axios.post(`${API}/api/favCharityList`, liked)
+    //             .then((response) => console.log(response))
+    //             .catch((err) => setError(err.response.data.msg))
+    //     }
+    //     setIsLiked(true)
+    // }
+
     const handleClick = () => {
-        addToDdFavList()
-        if (error !== null) {
-            setIsLiked(true)
-        }
+        const likedCharity = { name, location, logoUrl }
+        addFavToDb({ isLiked, likedCharity, API })
+            .then((res) => {
+                res === 'Already in fav list' && setError(res)
+                setIsLiked(true)
+            })
     }
-    const toggleModal = () => {
-        setIsHided(!isHided)
-    }
+
+    const AddFavBtn = () => <button onClick={() => handleClick()} className='text-lg'>{isLiked ? <BiSolidLike /> : <BiLike />}</button>
 
     return (
-        <div className='flex flex-col justify-start items-start text-left w-60 h-80 m-4 p-4 bg-[--color-gold] rounded-3xl text-[--color-gray-4]'>
-            <img className='w-52 h-36' src={logoUrl ? logoUrl : placeholderImg} alt={`Logo of ${name}`} />
-            <div className='flex flex-col h-full w-full justify-between mt-1.5'>
-                <div>
-                    <p>{name}</p>
-                    {/* <p>{location}</p> */}
-                </div>
-                <div className='flex flex-col items-center'>
-                    {error && <p>{error}</p>}
-                    <div className='flex flex-row justify-around items-center w-full'>
-                        <button onClick={() => handleClick()} className='text-lg'>{isLiked ? <BiSolidLike /> : <BiLike />}</button>
-                        <button onClick={() => toggleModal()} className='flex flex-row items-center text-lg'><small>Detail</small><MdReadMore /></button>
-                        {!isHided && <CharityDetail _id={ein} name={name} location={location} logoUrl={logoUrl} ein={ein} isHided={isHided} setIsHided={setIsHided} />}
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-
+        <>
+            <Card
+                name={name}
+                location={location}
+                logoUrl={logoUrl}
+                ein={ein}
+                _id={name}
+                eventBtn={<AddFavBtn />}
+                selectMode={selectMode}
+                itemsSelected={itemsSelected}
+                setItemsSelected={setItemsSelected}
+            />
+        </>
     )
 }
+
+
+        // <div className='relative flex flex-col justify-start items-start text-left w-60 h-80 m-4 p-4 bg-[--color-gold] rounded-3xl text-[--color-gray-4]'>
+        //     <button className='absolute right-0 top-0 text-2xl border border-2 border-[--color-gray-1] rounded-3xl bg-[--color-gray-1]'><TiTickOutline /></button>
+        //     <img className='w-52 h-36' src={logoUrl ? logoUrl : placeholderImg} alt={`Logo of ${name}`} />
+        //     <div className='flex flex-col h-full w-full justify-between mt-1.5'>
+        //         <div>
+        //             <p>{name}</p>
+        //         </div>
+        //         <div className='flex flex-col items-center'>
+        //             {error && <p>{error}</p>}
+        //             <div className='flex flex-row justify-around items-center w-full'>
+        // <button onClick={() => handleClick()} className='text-lg'>{isLiked ? <BiSolidLike /> : <BiLike />}</button>
+        //                 <button onClick={() => toggleModal()} className='flex flex-row items-center text-lg'><small>Detail</small><MdReadMore /></button>
+        //                 {!isHided && <CharityDetail _id={ein} name={name} location={location} logoUrl={logoUrl} ein={ein} isHided={isHided} setIsHided={setIsHided} />}
+        //             </div>
+        //         </div>
+        //     </div>
+        // </div>

@@ -110,6 +110,25 @@ body {
   }
 }
 
+.alert-animation {
+  animation-name: alert-animate-pop;
+  animation-duration: 200ms;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes alert-animate-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.5, 0.5);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1, 1);
+  }
+}
+
+
 .toggleDark {
   transform: translateX(1.5rem);
   transition: all 450ms ease-in-out;
@@ -120,4 +139,38 @@ body {
   transform: translateX(0rem);
   transition: all 450ms ease-in-out;
   background-color: var(--color-bg);
+}
+
+.card-focus {
+  border: #0789c9 5px solid;
+  animation-name: tilt-shaking;
+  animation-duration: 200ms;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes tilt-shaking {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(5deg);
+  }
+
+  50% {
+    transform: rotate(0eg);
+  }
+
+  75% {
+    transform: rotate(-5deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.btn-focus {
+  background-color: #0789c9;
+  border: #0789c9;
 }
