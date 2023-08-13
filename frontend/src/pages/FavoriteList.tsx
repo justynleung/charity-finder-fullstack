@@ -74,8 +74,7 @@ const FavCharity: React.FC<DLocal> = ({ name, location, logoUrl, ein, _id, force
 
     const handleClick = async () => {
         await deleteFromFavList({ API, _id })
-            .then(forceUpdate(!hasUpdated))
-            .catch((err) => console.log(err))
+        forceUpdate(!hasUpdated)
     }
 
     const DeleteBtn = () => <button onClick={() => handleClick()} className='text-lg'><AiOutlineDelete /></button>
