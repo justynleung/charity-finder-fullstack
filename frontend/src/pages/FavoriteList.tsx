@@ -10,8 +10,8 @@ import { AiOutlineDelete } from "../assets/react-icons"
 import { deleteFromFavList, getFavList } from '../services';
 import Card from '../components/Card';
 
-// const API = import.meta.env.VITE_API || "http://localhost:3000";
-const API = "http://localhost:3000";
+const API = import.meta.env.VITE_API || "http://localhost:3000";
+// const API = "http://localhost:3000";
 
 interface CharityData {
     name: string

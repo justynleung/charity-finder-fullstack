@@ -16,8 +16,8 @@ import { buttonPrimary } from '../assets/stylingTailwind';
 import SelectMultiple from '../components/SelectMultiple';
 
 const API_KEY = import.meta.env.VITE_API_KEY;
-// const API = import.meta.env.VITE_API || "http://localhost:3000";
-const API = "http://localhost:3000";
+const API = import.meta.env.VITE_API || "http://localhost:3000";
+// const API = "http://localhost:3000";
 
 interface CharityData {
     name: string
