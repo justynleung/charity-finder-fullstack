@@ -6,7 +6,7 @@ interface CharityData {
     location: string
     logoUrl: string
     ein: string
-    _id: string
+    _id?: string
     isHided: Boolean
     setIsHided: Function
 }

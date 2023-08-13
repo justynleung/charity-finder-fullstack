@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { Dispatch, SetStateAction, useEffect, useState, useMemo } from 'react';
 import { NavLink } from "react-router-dom";
 
@@ -25,7 +24,7 @@ interface CharityData {
     location: string
     logoUrl: string
     ein: string
-    _id: string
+    _id?: string
 }
 
 interface DLocal extends CharityData {
@@ -87,7 +86,7 @@ export default function CharityList() {
             <div className='flex flex-row flex-wrap justify-center w-fit max-w-[1500px]'>
                 {allData.map((item) => {
                     return <Charity
-                        key={item.name} name={item.name} location={item.location} logoUrl={item.logoUrl} ein={item.ein} _id={item.name}
+                        key={item.name} name={item.name} location={item.location} logoUrl={item.logoUrl} ein={item.ein}
                         setError={setError}
                         selectMode={selectMode}
                         itemsSelected={itemsSelected}

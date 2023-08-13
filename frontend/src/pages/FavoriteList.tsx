@@ -4,7 +4,7 @@ import { useEffect, useState, Dispatch, SetStateAction } from 'react';
 import NavMenu from '../components/NavMenu';
 
 // Asset
-import { MdReadMore, AiOutlineDelete, TiTickOutline } from "../assets/react-icons"
+import { AiOutlineDelete } from "../assets/react-icons"
 
 // Services
 import { deleteFromFavList, getFavList } from '../services';
@@ -13,29 +13,28 @@ import Card from '../components/Card';
 // const API = import.meta.env.VITE_API || "http://localhost:3000";
 const API = "http://localhost:3000";
 
-
-interface FavCharityData {
+interface CharityData {
     name: string
     location: string
     logoUrl: string
     ein: string
-    _id: string
+    _id?: string
 }
 
-interface DLocal extends FavCharityData {
+interface DLocal extends CharityData {
     forceUpdate: Function
     hasUpdated: Boolean
     selectMode: Boolean
-    itemsSelected: FavCharityData[]
-    setItemsSelected: Dispatch<SetStateAction<FavCharityData[] | []>>
+    itemsSelected: CharityData[]
+    setItemsSelected: Dispatch<SetStateAction<CharityData[] | []>>
 }
 
 
 export default function FavoriteList() {
-    const [allData, setAllData] = useState<FavCharityData[]>([]);
+    const [allData, setAllData] = useState<CharityData[]>([]);
     const [hasUpdated, setHasUpdated] = useState<Boolean>(true);
     const [selectMode, setSelectMode] = useState<Boolean>(false);
-    const [itemsSelected, setItemsSelected] = useState<FavCharityData[] | []>([])
+    const [itemsSelected, setItemsSelected] = useState<CharityData[] | []>([])
 
 
 

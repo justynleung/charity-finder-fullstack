@@ -2,7 +2,7 @@ import axios from "axios";
 
 interface DDeleteFromFavList {
     API: string;
-    _id: string;
+    _id?: string;
 }
 const deleteFromFavList = async ({ API, _id }: DDeleteFromFavList) => {
     try {
