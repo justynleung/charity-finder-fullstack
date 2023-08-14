@@ -1,5 +1,5 @@
 <h1>Charity Finder Full-stack Application</h1>
-<a href="https://https://charity-finder-frontend.vercel.app/">Click Me!</a>
+<a href="https://charity-finder-frontend.vercel.app/">Click Me!</a>
 <h2>Frontend</h2>
 <ul>
    <li>NodeJS</li>
